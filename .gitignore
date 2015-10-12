@@ -16,7 +16,6 @@ coverage
 config
 
 js/**/*.js
-js/components
 !js/lib/*.js
 
 css/main.css
