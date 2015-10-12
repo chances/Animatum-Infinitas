@@ -21,5 +21,10 @@ js/components
 
 css/main.css
 
+ts/declarations/*
+!ts/declarations/zepto/zepto.fx.d.ts
+!ts/declarations/pinkyswear.d.ts
+!ts/declarations/Animatum.d.ts
+
 .sass-cache
 node_modules
