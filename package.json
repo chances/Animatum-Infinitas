@@ -1,5 +1,6 @@
 {
   "name": "animatum",
+  "productName": "Animatum",
   "version": "0.1.0",
   "description": "A web application providing a cross-platform solution for animating RCT3 custom scenery.",
   "private": true,
@@ -21,11 +22,17 @@
   },
   "homepage": "https://github.com/chances/Animatum-Infinitas",
   "main": "js/main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron ."
+  },
   "devDependencies": {
     "del": "^1.1.0",
     "electron-prebuilt": "^0.33.6",
     "gulp": "^3.8.10",
     "gulp-for-compass": "^0.0.2",
     "gulp-typescript": "^2.3.0"
+  },
+  "dependencies": {
+    "three": "^0.72.0"
   }
 }
