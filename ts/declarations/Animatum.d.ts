@@ -15,6 +15,21 @@ interface ListItemWrapper<T> {
     indexOf(item: T): number;
 }
 
+interface TreeItem<T> {
+    label: string;
+    icon: string;
+    value: T;
+    parent: TreeItem<T>;
+}
+
+interface TreeItemWrapper<T> {
+    add(item: TreeItem<T>): void;
+    clear(): void;
+    get(index: number): T;
+    getItem(index: number): TreeItem<T>;
+    indexOf(item: T): number;
+}
+
 interface ZeptoCollection {
     hasAttr(name: string): boolean;
 }
