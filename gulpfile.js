@@ -5,6 +5,7 @@
 var gulp = require('gulp');
 var del = require('del');
 var path = require('path');
+var exec = require('child_process').exec;
 var compass = require('gulp-for-compass');
 var ts = require('gulp-typescript');
 
@@ -34,6 +35,13 @@ gulp.task('compass', function () {
     }));
 });
 
+gulp.task('typescript', function (callback) {
+    exec('tsc -p ' + __dirname, function (err, stdout, stderr) {
+        console.log(stdout);
+        callback();
+    });
+});
+
 gulp.task('watch', ['typescript'], function () {
     var watcher = gulp.watch(source, ['typescript']);
     watcher.on('change', function (event) {
@@ -42,5 +50,6 @@ gulp.task('watch', ['typescript'], function () {
     });
 });
 
-gulp.task('build', ['clean']);
+gulp.task('ts', ['typescript']);
+gulp.task('build', ['clean', 'typescript']);
 gulp.task('default', ['watch']);
