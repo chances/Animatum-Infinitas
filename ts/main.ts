@@ -7,11 +7,11 @@ var services: {
     events: new Events.Bridge()
 };
 
-$.fn.hasAttr = function(name: string): boolean {
-    var attr = this.attr(name);
-    return attr !== undefined && attr !== false;
-    //return this.attr(name) !== undefined;
-};
+//$.fn.hasAttr = function(name: string): boolean {
+//    var attr = this.attr(name);
+//    return attr !== undefined && attr !== false;
+//    //return this.attr(name) !== undefined;
+//};
 
 var app = new Application();
 
