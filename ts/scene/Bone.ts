@@ -16,34 +16,29 @@ class Bone extends Node {
     private assignedMeshes: Mesh[] = [];
     private sphere: Sphere = null;
 
-    constructor(object?: any) {
-        super();
+    constructor(object: any) {
+        super(null);
 
-        if (object) {
-            this.name = object.name;
-            //this.color = Colors.Random();
-            this.color = new THREE.Color('blue');
-            let v = object.mesh.verticies[0];
-            this.position = new THREE.Vector3(v.x, v.y, v.z);
-            this.translate = new THREE.Vector3();
+        this.name = object.name;
+        //this.color = Colors.Random();
+        let v = object.mesh.verticies[0];
+        this.position = new THREE.Vector3(v.x, v.y, v.z);
+        this.translate = new THREE.Vector3();
 
-            // Create visual representation
-            this.sphere = this.makeSphere();
-        }
+        // Create visual representation
+        this.sphere = this.makeSphere();
+
+        this.color = new THREE.Color('blue');
     }
 
     get position(): THREE.Vector3 {
-        if (this.sphere) {
-            return this.sphere.mesh.position;
-        }
-
-        return null;
+        return this.sphere.mesh.position;
     }
 
     set position(value: THREE.Vector3) {
-        if (this.sphere) {
-            this.sphere.mesh.position = value;
-        }
+        this.sphere.mesh.position = value;
+
+        this.events.trigger('nodeChanged', this, this);
     }
 
     get translation() {
@@ -53,6 +48,8 @@ class Bone extends Node {
     set translation(value: THREE.Vector3) {
         this.translate = value;
         this.sphere.mesh.position = this.position.add(this.translate);
+
+        this.events.trigger('nodeChanged', this, this);
     }
 
     get rotation() {
@@ -61,6 +58,8 @@ class Bone extends Node {
 
     set rotation(value: THREE.Vector3) {
         this.rotate = value;
+
+        this.events.trigger('nodeChanged', this, this);
     }
 
     get transformedPosition() {
@@ -76,14 +75,13 @@ class Bone extends Node {
     }
 
     get color(): THREE.Color {
-        if (this.sphere) {
-            return this.sphere.color;
-        }
-        return null;
+        return this.sphere.color;
     }
 
     set color(value: THREE.Color) {
         this.sphere.color = value;
+
+        this.events.trigger('nodeChanged', this, this);
     }
 
     get meshes() {

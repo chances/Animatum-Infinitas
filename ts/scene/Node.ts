@@ -1,6 +1,10 @@
+import Events = require('../Bridge');
+
 class Node {
     parent: Node = null;
     children: Node[] = [];
+
+    constructor(protected events: Events.Bridge = new Events.Bridge()) {}
 
     get hasChildren() {
         return this.children.length > 0;
@@ -10,10 +14,19 @@ class Node {
      * Add a child to this Node.
      *
      * @param node Node to add
+     * @returns {Node}
      */
     add(node: Node) {
         this.children.push(node);
         node.parent = this;
+
+        if (node.events === null) {
+            node.events = this.getRootNode().events;
+        }
+
+        this.events.trigger('nodeChanged', this, this);
+
+        return this;
     }
 
     /**
@@ -28,6 +41,7 @@ class Node {
         this.children.forEach((child: Node, index: number) => {
             if (node === child) {
                 this.children.splice(index, 1);
+                this.events.trigger('nodeChanged', this, this);
                 return node;
             }
         });
@@ -46,6 +60,14 @@ class Node {
             node = node.parent;
         }
         return node;
+    }
+
+    change(callback: Events.BridgeCallback<Node>): Node {
+        this.events.on('nodeChanged', (node: Node) => {
+            callback.call(this, node);
+        });
+
+        return this;
     }
 }
 

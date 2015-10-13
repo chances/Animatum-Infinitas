@@ -10,12 +10,9 @@ import Animation = require('./Animation');
 
 class Model extends Node {
     private curTime: number = 0.0;
-    private events: Events.Bridge;
 
     constructor() {
         super();
-
-        this.events = new Events.Bridge();
     }
 
     get currentTime() {
