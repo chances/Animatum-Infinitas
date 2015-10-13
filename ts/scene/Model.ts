@@ -24,6 +24,7 @@ class Model extends Node {
 
     set currentTime(value: number) {
         this.curTime = value;
+        this.updateMeshTransforms();
         this.events.trigger('currentTimeChanged', this.curTime, this);
     }
 
@@ -54,7 +55,7 @@ class Model extends Node {
         })
     }
 
-    isMeshAssigned(mesh: Mesh, node: Node) {
+    isMeshAssigned(mesh: Mesh, node: Node): boolean {
         node.children.forEach((child: Node) => {
             if (Helpers.objectIsA(child, Bone)) {
                 (<Bone>child).meshes.forEach((assignedMesh: Mesh) => {
@@ -65,6 +66,22 @@ class Model extends Node {
             }
         });
         return false;
+    }
+
+    currentTimeChanged(callback: Events.BridgeCallback<number>): Model {
+        this.events.on('currentTimeChanged', (time: number) => {
+            callback.call(this, time);
+        });
+
+        return this;
+    }
+
+    animationEnded(callback: Events.BridgeCallback<Model>): Model {
+        this.events.on('animationEnded', (model: Model) => {
+            callback.call(this, model);
+        });
+
+        return this;
     }
 
     private updateMeshTransforms() {
@@ -154,7 +171,7 @@ class Model extends Node {
         });
 
         if (endCount === this.bonesWithKeyframesLength) {
-            this.events.trigger('animationEnded', undefined, this);
+            this.events.trigger('animationEnded', this, this);
         }
     }
 
