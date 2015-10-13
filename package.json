@@ -33,6 +33,7 @@
     "gulp-typescript": "^2.3.0"
   },
   "dependencies": {
+    "bluebird": "^2.10.2",
     "three": "^0.72.0"
   }
 }
