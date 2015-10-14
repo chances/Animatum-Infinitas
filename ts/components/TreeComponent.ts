@@ -87,7 +87,7 @@ class TreeComponent<T> extends InputComponent<T> {
         }
 
         this._selectedIndex = index;
-        this.e.val(index.toString());
+        this.e.find('span').removeClass('selected').get(index).classList.add('selected');
     }
 
     get selectedItem(): T {
