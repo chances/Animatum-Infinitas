@@ -32,6 +32,7 @@
     "gulp": "^3.8.10",
     "gulp-for-compass": "^0.0.2",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.4.2",
     "gulp-util": "^3.0.6",
     "pinkyswear": "^2.2.2",
     "vinyl-buffer": "^1.0.0",

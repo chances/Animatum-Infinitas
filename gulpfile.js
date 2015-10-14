@@ -7,6 +7,7 @@ var path = require('path');
 var exec = require('child_process').exec;
 var sourcemaps = require('gulp-sourcemaps');
 var compass = require('gulp-for-compass');
+var uglify = require('gulp-uglify');
 
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
@@ -44,14 +45,14 @@ gulp.task('js', function () {
     var b = browserify({
         entries: './js/client/main.js',
         debug: true
-    });
+    }).ignore('three');
 
     return b.bundle()
         .pipe(source('main.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
-        //.pipe(uglify())
+        .pipe(uglify())
         //.pipe(rename({
         //    basename: 'main'
         //}))
