@@ -101,7 +101,7 @@ class Model extends Node {
                 //  to the first keyframe's time, set the
                 //  transformation to that keyframe's
                 //  transformation. Else, calculate the in between.
-                if (this.curTime < keyframes[0].time) {
+                if (this.curTime <= keyframes[0].time) {
                     let leftTranslate = bone.leftmostTranslationKeyframe;
                     if (leftTranslate !== null) {
                         translation = leftTranslate.transformation;
@@ -110,7 +110,7 @@ class Model extends Node {
                     if (leftRotate !== null) {
                         rotation = leftRotate.transformation;
                     }
-                } else if (this.curTime > keyframes[0].time) {
+                } else if (this.curTime >= keyframes[keyframes.length - 1].time) {
                     let rightTranslate = bone.rightmostTranslationKeyframe;
                     if (rightTranslate !== null) {
                         translation = rightTranslate.transformation;
@@ -131,13 +131,7 @@ class Model extends Node {
                         translation = right.transformation;
                     else if (left !== null && right !== null)
                     {
-                        //Difference in time between keyframes
-                        let timeDiff = right.time - left.time;
-                        let timeBetween = this.curTime - left.time;
-                        timeBetween /= timeDiff;
-                        //Difference in transformation between keyframes
-                        let transDiff = right.transformation.sub(left.transformation);
-                        translation = left.transformation.add(transDiff.multiplyScalar(timeBetween));
+                        translation = left.lerp(right, this.curTime);
                     }
 
                     // Rotation in between
@@ -149,13 +143,7 @@ class Model extends Node {
                         translation = right.transformation;
                     else if (left !== null && right !== null)
                     {
-                        //Difference in time between keyframes
-                        let timeDiff = right.time - left.time;
-                        let timeBetween = this.curTime - left.time;
-                        timeBetween /= timeDiff;
-                        //Difference in transformation between keyframes
-                        let transDiff = right.transformation.sub(left.transformation);
-                        translation = left.transformation.add(transDiff.multiplyScalar(timeBetween));
+                        translation = left.lerp(right, this.curTime);
                     }
                 }
             }
