@@ -27,11 +27,26 @@ html, body {
 
 body {
   @include display-flex(column);
+  margin: 0;
 }
 
 main {
-  @include display-flex(column);
+  @include display-flex();
   flex: 1;
+
+  & > div.sidebar {
+    @include display-flex(column);
+    width: 25vw;
+
+    & > div:first-child {
+      flex: 1;
+    }
+  }
+
+  & > div:last-child {
+    @include display-flex(column);
+    flex: 1;
+  }
 
   nav {
     @include display-flex;
@@ -42,6 +57,10 @@ main {
       border: none;
     }
   }
+}
+
+#glView {
+  flex: 1;
 }
 
 #xml {
