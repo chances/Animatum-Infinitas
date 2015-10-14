@@ -13,13 +13,11 @@ coverage
 .idea/workspace.xml
 .idea/tasks.xml
 
-config
+/config
 
-components
-
-js/**/*.js
-
-css
+/components
+/js
+/css
 
 ts/declarations/*
 !ts/declarations/zepto/zepto.fx.d.ts
