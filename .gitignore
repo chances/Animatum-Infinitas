@@ -23,5 +23,7 @@ ts/declarations/*
 !ts/declarations/zepto/zepto.fx.d.ts
 !ts/declarations/Animatum.d.ts
 
-.sass-cache
-node_modules
+/.sass-cache
+/node_modules
+
+/dist
