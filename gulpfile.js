@@ -1,21 +1,19 @@
-/**
- * Created by Chance Snow on 12/7/14.
- */
+'use strict';
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var del = require('del');
 var path = require('path');
 var exec = require('child_process').exec;
+var sourcemaps = require('gulp-sourcemaps');
 var compass = require('gulp-for-compass');
-var ts = require('gulp-typescript');
+
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 var tsConfig = require('./tsconfig.json');
-var source = tsConfig.filesGlob;
-
-var tsProject = ts.createProject('tsconfig.json', {
-    sourceMap: false,
-    noExternalResolve: true
-});
+var tsSource = tsConfig.filesGlob;
 
 gulp.task('clean', function (callback) {
     del(['js/**/*.js'], function (error) {
@@ -42,8 +40,28 @@ gulp.task('typescript', function (callback) {
     });
 });
 
+gulp.task('js', function () {
+    var b = browserify({
+        entries: './js/client/main.js',
+        debug: true
+    });
+
+    return b.bundle()
+        .pipe(source('main.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        // Add transformation tasks to the pipeline here.
+        //.pipe(uglify())
+        //.pipe(rename({
+        //    basename: 'main'
+        //}))
+        .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./dist/js/'));
+ });
+
 gulp.task('watch', ['typescript'], function () {
-    var watcher = gulp.watch(source, ['typescript']);
+    var watcher = gulp.watch(tsSource, ['typescript']);
     watcher.on('change', function (event) {
         var filename = path.basename(event.path);
         console.log(filename + ' was ' + event.type + ', compiling project...');

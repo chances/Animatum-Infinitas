@@ -1,16 +1,15 @@
 import THREE = require('three');
-import Promise = require("bluebird");
 
 import Convert = require('./Convert');
 
 module Helpers {
 
-    export function delay(time: number): Promise<Object> {
-        return new Promise(function (resolve) {
-            window.setTimeout(function () {
-                resolve(null);
-            }, time);
-        });
+    export function delay(time: number): PinkySwear.Promise {
+        let promise = pinkySwear();
+        window.setTimeout(function () {
+            promise(true);
+        }, time);
+        return promise;
     }
 
     export interface Interval {
