@@ -1,0 +1,32 @@
+{
+  "name": "animatum",
+  "version": "0.1.0",
+  "homepage": "https://github.com/chances/Animatum-Infinitas",
+  "authors": [
+    "Chance Snow <git@chancesnow.me>"
+  ],
+  "description": "A web application providing a cross-platform solution for animating RCT3 custom scenery.",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "js",
+    "ts",
+    "typescript",
+    "webapp",
+    "rct3"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "fontawesome#~4.4.0",
+    "zepto-full": "~1.1.4",
+    "codemirror": "CodeMirror#~5.7.0"
+  }
+}

@@ -15,10 +15,11 @@ coverage
 
 config
 
-js/**/*.js
-!js/lib/*.js
+components
 
-css/main.css
+js/**/*.js
+
+css
 
 ts/declarations/*
 !ts/declarations/zepto/zepto.fx.d.ts

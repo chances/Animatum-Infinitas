@@ -18,7 +18,7 @@ var tsProject = ts.createProject('tsconfig.json', {
 });
 
 gulp.task('clean', function (callback) {
-    del(['js/**/*.js', '!js/lib/*.js'], function (error) {
+    del(['js/**/*.js'], function (error) {
         if (error) {
             return callback(error);
         }
