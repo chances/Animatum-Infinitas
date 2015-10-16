@@ -25,8 +25,15 @@
   "scripts": {
     "start": "./node_modules/.bin/electron ."
   },
+  "browserify-shim": {
+    "three": "global:THREE"
+  },
+  "browserify": {
+    "transform": ["browserify-shim"]
+  },
   "devDependencies": {
     "browserify": "^11.2.0",
+    "browserify-shim": "^3.8.10",
     "del": "^1.1.0",
     "electron-prebuilt": "^0.33.6",
     "gulp": "^3.8.10",
@@ -36,7 +43,8 @@
     "gulp-util": "^3.0.6",
     "pinkyswear": "^2.2.2",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.4.0"
   },
   "dependencies": {
     "bluebird": "^2.10.2",
