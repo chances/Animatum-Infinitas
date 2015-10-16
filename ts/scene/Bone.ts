@@ -20,15 +20,14 @@ class Bone extends Node {
         super(null);
 
         this.name = object.name;
-        //this.color = Colors.Random();
-        let v = object.mesh.verticies[0];
-        this.position = new THREE.Vector3(v.x, v.y, v.z);
         this.translate = new THREE.Vector3();
 
         // Create visual representation
-        this.sphere = this.makeSphere();
+        let v = object.mesh.verticies[0];
+        let position = new THREE.Vector3(v.x, v.y, v.z);
+        this.sphere = new Sphere(position.add(this.translate), 1.0 * 0.15, 6, new THREE.Color('red'));
 
-        this.color = new THREE.Color('blue');
+        //this.color = Colors.Random();
     }
 
     get position(): THREE.Vector3 {
