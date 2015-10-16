@@ -36,7 +36,7 @@ main {
 
   & > div.sidebar {
     @include display-flex(column);
-    width: 25vw;
+    width: 15rem;
 
     & > div:first-child {
       flex: 1;
