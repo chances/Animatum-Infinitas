@@ -4,6 +4,7 @@ import OrbitControls = require('three-orbit-controls');
 import Component = require('../components/Component');
 
 import Grid = require('../scene/primitives/Grid');
+import Axies = require('../scene/primitives/Axies');
 
 class WebGLView extends Component {
     private renderer: THREE.WebGLRenderer = null;
@@ -18,64 +19,15 @@ class WebGLView extends Component {
 
         this.ready();
 
-        this.optimizedResize.add(() => {
+        window.addEventListener('resize', () => {
             let width = this.e.width(),
-                height = this.e.height();
+                height = this.e.parent().height();
 
             this.camera.aspect = width / height;
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(width, height, true);
         });
     }
-
-    private optimizedResize = (function() {
-        var callbacks = [],
-            running = false;
-
-        // fired on resize event
-        function resize() {
-
-            if (!running) {
-                running = true;
-
-                if (window.requestAnimationFrame) {
-                    window.requestAnimationFrame(runCallbacks);
-                } else {
-                    setTimeout(runCallbacks, 66);
-                }
-            }
-
-        }
-
-        // run the actual callbacks
-        function runCallbacks() {
-
-            callbacks.forEach(function(callback) {
-                callback();
-            });
-
-            running = false;
-        }
-
-        // adds callback to loop
-        function addCallback(callback) {
-
-            if (callback) {
-                callbacks.push(callback);
-            }
-
-        }
-
-        return {
-            // public method to add additional callback
-            add: function(callback) {
-                if (!callbacks.length) {
-                    window.addEventListener('resize', resize);
-                }
-                addCallback(callback);
-            }
-        }
-    }());
 
     private ready() {
         let width = this.e.width(),
@@ -103,6 +55,9 @@ class WebGLView extends Component {
 
         let grid = new Grid();
         this.scene.add(grid.group);
+
+        let axies = new Axies();
+        this.scene.add(axies.mesh);
 
         // renderer
         this.renderer = new THREE.WebGLRenderer({
