@@ -2,7 +2,7 @@ import THREE = require('three');
 
 class Grid {
     private lineWidth = 1.0;
-    private size = 20;
+    private size = 22;
     private lightColor = new THREE.Color(0x323232);
     private lightMaterial = new THREE.LineBasicMaterial();
     private darkColor = new THREE.Color(0xA9A9A9);
