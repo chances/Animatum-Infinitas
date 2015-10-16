@@ -1,9 +1,17 @@
+import THREE = require('three');
+import OrbitControls = require('three-orbit-controls');
+
 import Component = require('../components/Component');
+
+import Grid = require('../scene/primitives/Grid');
 
 class WebGLView extends Component {
     private renderer: THREE.WebGLRenderer = null;
     private scene: THREE.Scene = null;
     private camera: THREE.PerspectiveCamera = null;
+    private controls: OrbitControls = null;
+
+    private timestamp: number;
 
     constructor () {
         super('#glView');
@@ -74,7 +82,13 @@ class WebGLView extends Component {
             height = this.e.height();
 
         this.camera = new THREE.PerspectiveCamera( 75, width / height, 1, 100000 );
-        this.camera.position.z = 75;
+        this.camera.up.set(0, 0, 1);
+        this.camera.position.set(10, 10, 10);
+        //this.camera.position.z = 75;
+        this.camera.lookAt(new THREE.Vector3());
+        this.camera.updateProjectionMatrix();
+
+        this.controls = new (OrbitControls(THREE))(this.camera);
 
         this.scene = new THREE.Scene();
 
@@ -84,22 +98,35 @@ class WebGLView extends Component {
 
         // more lights
         var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-        directionalLight.position.set( 0, -70, 100 ).normalize();
+        directionalLight.position.set( 0, -700, 500 ).normalize();
         this.scene.add( directionalLight );
 
+        let grid = new Grid();
+        this.scene.add(grid.group);
+
         // renderer
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({
+            devicePixelRatio: window.devicePixelRatio,
+            antialias: true
+        });
         this.renderer.setSize(width, height);
         this.renderer.domElement.style.position = "relative";
         this.e.append(this.renderer.domElement);
+
+        window.requestAnimationFrame((time) => { this.animate(time); });
     }
 
-    private animate() {
-        window.requestAnimationFrame(this.animate);
-        this.render();
+    private animate(time: number) {
+        if (!this.timestamp) {
+            this.timestamp = time;
+        }
+        let progress = this.timestamp - time;
+        this.render(progress);
+
+        window.requestAnimationFrame((time) => { this.animate(time); });
     }
 
-    private render() {
+    private render(progress?: number) {
         this.renderer.render(this.scene, this.camera);
     }
 }
