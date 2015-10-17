@@ -24,6 +24,7 @@ class TreeComponent<T> extends InputComponent<T> {
                 let depth = this.getTreeItemDepth(item, 0);
 
                 let element = $('<span>');
+                element.addClass('item');
                 element.text(item.label);
                 if (item.icon) {
                     element.prepend(
