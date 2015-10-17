@@ -2,12 +2,12 @@ import THREE = require('three');
 
 import Helpers = require('../Helpers');
 
-import Node = require('./Node');
+import SceneNode = require('./Node');
 import Mesh = require('./Mesh');
 import Animation = require('./Animation');
 import Sphere = require('./primitives/Sphere');
 
-class Bone extends Node {
+class Bone extends SceneNode {
     name: string = '';
     animation: Animation.Keyframe[] = [];
 

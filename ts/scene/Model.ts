@@ -3,12 +3,12 @@ import THREE = require('three');
 import Helpers = require('../Helpers');
 import Events = require('../Bridge');
 
-import Node = require('./Node');
+import SceneNode = require('./Node');
 import Bone = require('./Bone');
 import Mesh = require('./Mesh');
 import Animation = require('./Animation');
 
-class Model extends Node {
+class Model extends SceneNode {
     private curTime: number = 0.0;
 
     constructor() {
