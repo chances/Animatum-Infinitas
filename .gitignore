@@ -21,6 +21,7 @@ coverage
 
 ts/declarations/*
 !ts/declarations/zepto/zepto.fx.d.ts
+!ts/declarations/three-orbit-controls.d.ts
 !ts/declarations/Animatum.d.ts
 
 /.sass-cache
