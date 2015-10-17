@@ -34,7 +34,7 @@ class Model extends TreeComponent<Bone|Mesh> {
         meshes.forEach((mesh: Mesh) => {
             this._itemWrapper.add({
                 label: mesh.name,
-                icon: '',
+                icon: 'fa fa-square-o',
                 value: mesh,
                 parent: null
             });
@@ -42,7 +42,7 @@ class Model extends TreeComponent<Bone|Mesh> {
         bones.forEach((bone: Bone) => {
             this._itemWrapper.add({
                 label: bone.name,
-                icon: '',
+                icon: 'fa fa-circle-o',
                 value: bone,
                 parent: null
             });
