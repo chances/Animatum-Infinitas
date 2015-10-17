@@ -12,16 +12,20 @@ class WebGLView extends Component {
     private camera: THREE.PerspectiveCamera = null;
     private controls: OrbitControls = null;
 
+    private timeline: Component = null;
+
     private timestamp: number;
 
     constructor () {
         super('#glView');
 
+        this.timeline = new Component('#timeline');
+
         this.ready();
 
         window.addEventListener('resize', () => {
-            let width = this.e.width(),
-                height = this.e.parent().height();
+            let width = this.width,
+                height = this.e.parent().height() - this.timeline.height;
 
             this.camera.aspect = width / height;
             this.camera.updateProjectionMatrix();
@@ -30,7 +34,7 @@ class WebGLView extends Component {
     }
 
     private ready() {
-        let width = this.e.width(),
+        let width = this.width,
             height = this.e.height();
 
         this.camera = new THREE.PerspectiveCamera( 75, width / height, 1, 100000 );
