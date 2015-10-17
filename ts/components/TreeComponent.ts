@@ -28,12 +28,12 @@ class TreeComponent<T> extends InputComponent<T> {
                 element.text(item.label);
                 if (item.icon) {
                     element.prepend(
-                        $('span').addClass('icon').addClass(item.icon)
+                        $('<i>').addClass('icon').addClass(item.icon)
                     );
                 }
                 element.click((event) => {
-                    let span = <HTMLSpanElement>(event.target);
-                    let index = this.e.index(span);
+                    let span = <HTMLSpanElement>(event.currentTarget);
+                    let index = this.e.find('span.item').index(span);
                     this.itemClicked(index);
                 });
                 this.e.append(element);
@@ -88,7 +88,7 @@ class TreeComponent<T> extends InputComponent<T> {
         }
 
         this._selectedIndex = index;
-        this.e.find('span').removeClass('selected').get(index).classList.add('selected');
+        this.e.find('span.item').removeClass('selected').get(index).classList.add('selected');
     }
 
     get selectedItem(): T {
@@ -126,7 +126,7 @@ class TreeComponent<T> extends InputComponent<T> {
 
     private itemClicked(index: number) {
         if (index !== this._selectedIndex) {
-            this._selectedIndex = index;
+            this.selectedIndex = index;
             this._events.trigger('selectionChanged', this.selectedItem, this);
         }
     }
