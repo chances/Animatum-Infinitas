@@ -52,8 +52,8 @@ class Model extends SceneNode {
         })
     }
 
-    isMeshAssigned(mesh: Mesh, node: Node): boolean {
-        node.children.forEach((child: Node) => {
+    isMeshAssigned(mesh: Mesh, node: SceneNode): boolean {
+        node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Bone)) {
                 (<Bone>child).meshes.forEach((assignedMesh: Mesh) => {
                     if (assignedMesh === mesh) {
@@ -160,8 +160,8 @@ class Model extends SceneNode {
         }
     }
 
-    private getMeshes(node: Node, meshes: Mesh[]) {
-        node.children.forEach((child: Node) => {
+    private getMeshes(node: SceneNode, meshes: Mesh[]) {
+        node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Mesh)) {
                 meshes.push(<Mesh>child);
                 this.getMeshes(child, meshes);
@@ -169,8 +169,8 @@ class Model extends SceneNode {
         });
     }
 
-    private getBones(node: Node, bones: Bone[]) {
-        node.children.forEach((child: Node) => {
+    private getBones(node: SceneNode, bones: Bone[]) {
+        node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Bone)) {
                 bones.push(<Bone>child);
                 this.getBones(child, bones);
@@ -178,9 +178,9 @@ class Model extends SceneNode {
         });
     }
 
-    private countMeshes(node: Node): number {
+    private countMeshes(node: SceneNode): number {
         let count = 0;
-        node.children.forEach((child: Node) => {
+        node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Mesh)) {
                 count++;
                 count += this.countMeshes(child);
@@ -189,9 +189,9 @@ class Model extends SceneNode {
         return count;
     }
 
-    private countBones(node: Node): number {
+    private countBones(node: SceneNode): number {
         let count = 0;
-        node.children.forEach((child: Node) => {
+        node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Bone)) {
                 count++;
                 count += this.countBones(child);
@@ -200,9 +200,9 @@ class Model extends SceneNode {
         return count;
     }
 
-    private countBonesWithKeyframes(node: Node): number {
+    private countBonesWithKeyframes(node: SceneNode): number {
         let count = 0;
-        node.children.forEach((child: Node) => {
+        node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Bone) && (<Bone>child).animation.length > 0) {
                 count++;
                 count += this.countBonesWithKeyframes(child);

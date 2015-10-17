@@ -40,7 +40,8 @@ class WebGLView extends Component {
         this.camera.lookAt(new THREE.Vector3());
         this.camera.updateProjectionMatrix();
 
-        this.controls = new (OrbitControls(THREE))(this.camera);
+        let orbitControls = OrbitControls(THREE);
+        this.controls = new orbitControls(this.camera, this.e.get(0));
 
         this.scene = new THREE.Scene();
 
