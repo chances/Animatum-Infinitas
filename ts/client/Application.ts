@@ -6,13 +6,14 @@ import WebGLView = require('../controls/WebGLView');
 import Model = require('../scene/Model');
 
 class Application {
+    private model = new Model();
     private modelView: ModelView = null;
     private glView: WebGLView = null;
     private _debugMode: boolean = false;
 
     constructor() {
         $(() => {
-            this.modelView = new ModelView(new Model());
+            this.modelView = new ModelView(this.model);
             this.glView = new WebGLView();
         });
     }
