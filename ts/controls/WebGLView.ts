@@ -39,7 +39,7 @@ class WebGLView extends Component {
 
         this.camera = new THREE.PerspectiveCamera( 75, width / height, 1, 100000 );
         this.camera.up.set(0, 0, 1);
-        this.camera.position.set(10, 10, 10);
+        this.camera.position.set(5, 5, 6);
         //this.camera.position.z = 75;
         this.camera.lookAt(new THREE.Vector3());
         this.camera.updateProjectionMatrix();
