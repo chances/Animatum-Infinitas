@@ -23,6 +23,18 @@
   "homepage": "https://github.com/chances/Animatum-Infinitas",
   "main": "js/main.js",
   "scripts": {
+    "clean": "find ./js -type f -name '*.js' -delete && find ./dist -type f -name '*.js' -delete && find ./dist -type f -name '*.js.map' -delete && rm css/*.css",
+    "build": "npm run build:css && npm run build:js",
+    "build:js": "tsc; browserify --debug js/client/main.js -o dist/main.js",
+    "build:css": "gulp compass",
+    "rebuild": "npm run clean; npm run build",
+    "minify": "uglifyjs --compress --mangle --screw-ie8 -o dist/main.js -- dist/main.js",
+    "minify:debug": "uglifyjs --compress --mangle --screw-ie8 --in-source-map dist/main.js.map --source-map dist/main.js.map -o dist/main.js -- dist/main.js",
+    "watch": "gulp watch",
+    "watch:css": "compass watch",
+    "watch:ts": "tsc -w",
+    "watch:js": "watchify js/client/main.js -o dist/main.js -v",
+    "run": "npm run build; npm run start",
     "start": "./node_modules/.bin/electron ."
   },
   "browserify-shim": {
@@ -36,15 +48,14 @@
   "devDependencies": {
     "browserify": "^11.2.0",
     "browserify-shim": "^3.8.10",
+    "chalk": "^1.1.1",
     "del": "^1.1.0",
     "electron-prebuilt": "^0.33.6",
     "gulp": "^3.8.10",
-    "gulp-for-compass": "^0.0.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.4.2",
-    "gulp-util": "^3.0.6",
+    "node-spawn": "0.0.7",
     "pinkyswear": "^2.2.2",
-    "run-sequence": "^1.1.4",
+    "tsify": "^0.12.2",
+    "uglify-js": "^2.5.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.4.0"
