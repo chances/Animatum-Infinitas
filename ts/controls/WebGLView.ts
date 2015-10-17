@@ -49,9 +49,19 @@ class WebGLView extends Component {
         var ambient = new THREE.AmbientLight( 0xffffff );
         this.scene.add( ambient );
 
-        // more lights
-        var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-        directionalLight.position.set( 0, -700, 500 ).normalize();
+        var directionalLight = new THREE.DirectionalLight( 0xffffff );
+        directionalLight.position.set( -9, -9, 11 ).normalize();
+        directionalLight.color = new THREE.Color('rgb(100,100,100)');
+        this.scene.add( directionalLight );
+
+        directionalLight = new THREE.DirectionalLight( 0xffffff );
+        directionalLight.position.set( 9, -9, 11 ).normalize();
+        directionalLight.color = new THREE.Color('rgb(100,100,100)');
+        this.scene.add( directionalLight );
+
+        directionalLight = new THREE.DirectionalLight( 0xffffff );
+        directionalLight.position.set(0, 15, 15 ).normalize();
+        directionalLight.color = new THREE.Color('rgb(100,100,100)');
         this.scene.add( directionalLight );
 
         let grid = new Grid();
