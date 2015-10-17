@@ -27,6 +27,7 @@ html, body {
 
 body {
   @include display-flex(column);
+  font-family: sans-serif;
   margin: 0;
 }
 
@@ -59,9 +60,35 @@ main {
   }
 }
 
+#model {
+
+  & > * {
+    cursor: default;
+    -webkit-user-select: none;
+  }
+
+  & > .item {
+    display: block;
+    padding: 0.25em 0;
+
+    &.selected {
+      color: #fefefe;
+      background-color: #0077cc;
+    }
+
+    & > .icon {
+      padding: 0.05em 0.5em 0;
+    }
+  }
+}
+
 #glView {
   flex: 1;
   overflow: hidden;
+}
+
+#timeline {
+  height: 15rem;
 }
 
 #xml {
