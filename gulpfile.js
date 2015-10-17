@@ -5,6 +5,7 @@ var gutil = require('gulp-util');
 var del = require('del');
 var path = require('path');
 var exec = require('child_process').exec;
+var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 var compass = require('gulp-for-compass');
 var uglify = require('gulp-uglify');
@@ -17,12 +18,36 @@ var buffer = require('vinyl-buffer');
 var tsConfig = require('./tsconfig.json');
 var tsSource = tsConfig.filesGlob;
 
-gulp.task('clean', function (callback) {
-    del(['js/**/*.js'], function (error) {
+process.title = require('./package.json').name;
+
+gulp.task('clean-css', function (callback) {
+    del(['css/**/*.css'], function (error) {
         if (error) {
             return callback(error);
         }
         callback();
+    });
+});
+
+gulp.task('clean-js', function (callback) {
+    var count = 0;
+    del(['js/**/*.js'], function (error) {
+        if (error) {
+            return callback(error);
+        }
+        count++;
+        if (count === 2) {
+            callback();
+        }
+    });
+    del(['dist/**/*.js', 'dist/**/*.js.map'], function (error) {
+        if (error) {
+            return callback(error);
+        }
+        count++;
+        if (count === 2) {
+            callback();
+        }
     });
 });
 
@@ -36,7 +61,7 @@ gulp.task('compass', function () {
 });
 
 gulp.task('typescript', function (callback) {
-    exec('tsc -p ' + __dirname, function (err, stdout, stderr) {
+    exec('tsc -p ' + __dirname, function (err, stdout) {
         console.log(stdout);
         callback();
     });
@@ -93,14 +118,19 @@ gulp.task('js', ['typescript'], function () {
         .pipe(gulp.dest('./dist/js/'));
 });
 
-gulp.task('watch', ['typescript'], function () {
-    var watcher = gulp.watch(tsSource, ['typescript']);
+gulp.task('rebuild', function(callback) {
+    runSequence('clean', 'build', callback);
+});
+
+gulp.task('watch', ['js'], function () {
+    var watcher = gulp.watch(tsSource, ['js']);
     watcher.on('change', function (event) {
         var filename = path.basename(event.path);
         console.log(filename + ' was ' + event.type + ', compiling project...');
     });
 });
 
+gulp.task('clean', ['clean-js', 'clean-css']);
 gulp.task('ts', ['typescript']);
-gulp.task('build', ['clean', 'typescript']);
+gulp.task('build', ['compass', 'js']);
 gulp.task('default', ['watch']);
