@@ -23,6 +23,14 @@ class Component {
         return this._element.attr('id');
     }
 
+    get width(): number {
+        return this._element.width();
+    }
+
+    get height(): number {
+        return this._element.height();
+    }
+
     addEventListener(event: string, callback: Events.BridgeCallback<any>): number {
         return this._events.on(event, callback);
     }
@@ -57,7 +65,7 @@ class Component {
             this.e.attr('data-' + name, value);
         }
 
-        return Component;
+        return this;
     }
 
     show(fade: boolean = false, duration: number = $.fx.speeds._default) {
