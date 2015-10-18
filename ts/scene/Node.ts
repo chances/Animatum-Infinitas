@@ -62,6 +62,18 @@ class Node {
         return node;
     }
 
+    contains(node: Node): boolean {
+        this.children.forEach((child: Node) => {
+            if (child === node) {
+                return true;
+            } else if (child.contains(node)) {
+                return true;
+            }
+        });
+
+        return false;
+    }
+
     change(callback: Events.BridgeCallback<Node>): Node {
         this.events.on('nodeChanged', (node: Node) => {
             callback.call(this, node);
