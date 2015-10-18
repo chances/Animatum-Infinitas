@@ -1,21 +1,24 @@
 import THREE = require('three');
 
-import Node = require('./Node');
+import SceneNode = require('./Node');
 import Bone = require('./Bone');
 
-class Mesh extends Node {
+class Mesh extends SceneNode {
     name: string = '';
 
     private geometry: THREE.Geometry = null;
-    private material: THREE.MeshBasicMaterial = null;
-    private mesh: THREE.Mesh = null;
+    private material: THREE.MeshPhongMaterial = null;
+    private rawMesh: THREE.Mesh = null;
     private assignedBone: Bone = null;
 
     constructor(object: any) {
         super();
 
-        this.material = new THREE.MeshBasicMaterial();
+        this.material = new THREE.MeshPhongMaterial();
         this.material.color = new THREE.Color('green');
+        this.material.shininess = 5;
+        this.material.transparent = true;
+        this.material.opacity = 0.60;
 
         this.name = object.name;
 
@@ -52,7 +55,7 @@ class Mesh extends Node {
             this.geometry.faces.push(geometryFace);
         });
 
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.rawMesh = new THREE.Mesh(this.geometry, this.material);
 
         this.bone = null;
     }
@@ -67,6 +70,10 @@ class Mesh extends Node {
         this.events.trigger('nodeChanged', this, this);
     }
 
+    get mesh() {
+        return this.rawMesh;
+    }
+
     get polygonCount() {
         return this.geometry.faces.length;
     }
@@ -77,12 +84,12 @@ class Mesh extends Node {
 
     set bone(value: Bone) {
         this.assignedBone = value;
-        if (value !== null && this.mesh) {
-            this.mesh.position = this.assignedBone.translation;
+        if (value !== null && this.rawMesh) {
+            this.rawMesh.position = this.assignedBone.translation;
         } else {
-            this.mesh.position.x = 0;
-            this.mesh.position.y = 0;
-            this.mesh.position.z = 0;
+            this.rawMesh.position.x = 0;
+            this.rawMesh.position.y = 0;
+            this.rawMesh.position.z = 0;
         }
 
         this.events.trigger('nodeChanged', this, this);

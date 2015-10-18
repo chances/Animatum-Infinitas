@@ -3,6 +3,8 @@ import OrbitControls = require('three-orbit-controls');
 
 import Component = require('../components/Component');
 
+import SceneNode = require('../scene/Node');
+import Model = require('../scene/Model');
 import Grid = require('../scene/primitives/Grid');
 import Axies = require('../scene/primitives/Axies');
 
@@ -14,13 +16,22 @@ class WebGLView extends Component {
 
     private timeline: Component = null;
 
+    private model: Model = null;
+
     private timestamp: number;
 
-    constructor () {
+    constructor (model: Model) {
         super('#glView');
 
         this.timeline = new Component('#timeline');
 
+        this.model = model;
+        this.model.childAdded((node: SceneNode) => {
+            this.scene.add(node.mesh);
+        });
+        this.model.childRemoved((node: SceneNode) => {
+            this.scene.remove(node.mesh);
+        });
         this.ready();
 
         window.addEventListener('resize', () => {

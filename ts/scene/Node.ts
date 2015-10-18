@@ -10,6 +10,10 @@ class Node {
         return this.children.length > 0;
     }
 
+    get mesh(): THREE.Mesh {
+        return null;
+    }
+
     /**
      * Add a child to this Node.
      *

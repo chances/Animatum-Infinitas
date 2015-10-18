@@ -83,6 +83,10 @@ class Bone extends SceneNode {
         this.events.trigger('nodeChanged', this, this);
     }
 
+    get mesh(): THREE.Mesh {
+        return this.sphere.mesh;
+    }
+
     get meshes() {
         return this.assignedMeshes;
     }
