@@ -14,7 +14,7 @@ class Application {
     constructor() {
         $(() => {
             this.modelView = new ModelView(this.model);
-            this.glView = new WebGLView();
+            this.glView = new WebGLView(this.model);
         });
     }
 
