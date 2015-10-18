@@ -25,6 +25,7 @@ class Node {
         }
 
         this.events.trigger('nodeChanged', this, this);
+        this.events.trigger('nodeAdded', node, this);
 
         return this;
     }
@@ -42,6 +43,7 @@ class Node {
             if (node === child) {
                 this.children.splice(index, 1);
                 this.events.trigger('nodeChanged', this, this);
+                this.events.trigger('nodeRemoved', node, this);
                 return node;
             }
         });
@@ -76,6 +78,22 @@ class Node {
 
     change(callback: Events.BridgeCallback<Node>): Node {
         this.events.on('nodeChanged', (node: Node) => {
+            callback.call(this, node);
+        });
+
+        return this;
+    }
+
+    childAdded(callback: Events.BridgeCallback<Node>): Node {
+        this.events.on('nodeAdded', (node: Node) => {
+            callback.call(this, node);
+        });
+
+        return this;
+    }
+
+    childRemoved(callback: Events.BridgeCallback<Node>): Node {
+        this.events.on('nodeRemoved', (node: Node) => {
             callback.call(this, node);
         });
 
