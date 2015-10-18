@@ -15,7 +15,7 @@ class Model extends SceneNode {
         super();
     }
 
-    get currentTime() {
+    get currentTime(): number {
         return this.curTime;
     }
 
@@ -25,23 +25,23 @@ class Model extends SceneNode {
         this.events.trigger('currentTimeChanged', this.curTime, this);
     }
 
-    get meshes() {
+    get meshes(): Mesh[] {
         let meshes: Mesh[] = [];
         this.getMeshes(this, meshes);
         return meshes;
     }
 
-    get bones() {
+    get bones(): Bone[] {
         let bones: Bone[] = [];
         this.getBones(this, bones);
         return bones;
     }
 
-    get bonesWithKeyframesLength() {
+    get bonesWithKeyframesLength(): number {
         return this.countBonesWithKeyframes(this);
     }
 
-    clear() {
+    clear(): void {
         this.meshes.forEach((mesh: Mesh) => {
             mesh.parent.remove(mesh);
         });
@@ -49,7 +49,7 @@ class Model extends SceneNode {
             if (bone.parent) {
                 bone.parent.remove(bone);
             }
-        })
+        });
     }
 
     isMeshAssigned(mesh: Mesh, node: SceneNode): boolean {
@@ -81,7 +81,7 @@ class Model extends SceneNode {
         return this;
     }
 
-    private updateMeshTransforms() {
+    private updateMeshTransforms(): void {
         let endCount = 0;
         this.bones.forEach((bone: Bone) => {
             let translation = bone.translation;
@@ -97,10 +97,12 @@ class Model extends SceneNode {
             } else if (bone.animation.length > 1) {
                 // Get the keyframes sorted by time
                 let keyframes: Animation.Keyframe[] = bone.animationSortedByTime;
-                // If the current time is less than, or equal
-                //  to the first keyframe's time, set the
-                //  transformation to that keyframe's
-                //  transformation. Else, calculate the in between.
+                /*
+                /* If the current time is less than, or equal
+                /*  to the first keyframe's time, set the
+                /*  transformation to that keyframe's
+                /*  transformation. Else, calculate the in between.
+                */
                 if (this.curTime <= keyframes[0].time) {
                     let leftTranslate = bone.leftmostTranslationKeyframe;
                     if (leftTranslate !== null) {
@@ -125,24 +127,22 @@ class Model extends SceneNode {
                     // Translation in between
                     let left = bone.getKeyframeLeftOfTime(this.curTime, Animation.KeyframeType.Translation);
                     let right = bone.getKeyframeRightOfTime(this.curTime, Animation.KeyframeType.Translation);
-                    if (left !== null && right === null)
+                    if (left !== null && right === null) {
                         translation = left.transformation;
-                    else if (left === null && right !== null)
+                    } else if (left === null && right !== null) {
                         translation = right.transformation;
-                    else if (left !== null && right !== null)
-                    {
+                    } else if (left !== null && right !== null) {
                         translation = left.lerp(right, this.curTime);
                     }
 
                     // Rotation in between
                     left = bone.getKeyframeLeftOfTime(this.curTime, Animation.KeyframeType.Rotation);
                     right = bone.getKeyframeRightOfTime(this.curTime, Animation.KeyframeType.Rotation);
-                    if (left !== null && right === null)
+                    if (left !== null && right === null) {
                         translation = left.transformation;
-                    else if (left === null && right !== null)
+                    } else if (left === null && right !== null) {
                         translation = right.transformation;
-                    else if (left !== null && right !== null)
-                    {
+                    } else if (left !== null && right !== null) {
                         translation = left.lerp(right, this.curTime);
                     }
                 }
@@ -152,7 +152,7 @@ class Model extends SceneNode {
             bone.rotation = rotation;
             bone.meshes.forEach((mesh: Mesh) => {
                 mesh.bone = bone;
-            })
+            });
         });
 
         if (endCount === this.bonesWithKeyframesLength) {
@@ -160,7 +160,7 @@ class Model extends SceneNode {
         }
     }
 
-    private getMeshes(node: SceneNode, meshes: Mesh[]) {
+    private getMeshes(node: SceneNode, meshes: Mesh[]): void {
         node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Mesh)) {
                 meshes.push(<Mesh>child);
@@ -169,7 +169,7 @@ class Model extends SceneNode {
         });
     }
 
-    private getBones(node: SceneNode, bones: Bone[]) {
+    private getBones(node: SceneNode, bones: Bone[]): void {
         node.children.forEach((child: SceneNode) => {
             if (Helpers.objectIsA(child, Bone)) {
                 bones.push(<Bone>child);

@@ -70,15 +70,15 @@ class Mesh extends SceneNode {
         this.events.trigger('nodeChanged', this, this);
     }
 
-    get mesh() {
+    get mesh(): THREE.Mesh {
         return this.rawMesh;
     }
 
-    get polygonCount() {
+    get polygonCount(): number {
         return this.geometry.faces.length;
     }
 
-    get bone() {
+    get bone(): Bone {
         return this.assignedBone;
     }
 
@@ -95,7 +95,7 @@ class Mesh extends SceneNode {
         this.events.trigger('nodeChanged', this, this);
     }
 
-    toString() {
+    toString(): string {
         return this.name;
     }
 }

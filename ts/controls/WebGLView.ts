@@ -44,7 +44,7 @@ class WebGLView extends Component {
         });
     }
 
-    private ready() {
+    private ready(): void {
         let width = this.width,
             height = this.e.height();
 
@@ -60,11 +60,11 @@ class WebGLView extends Component {
 
         this.scene = new THREE.Scene();
 
-        // lights
-        var ambient = new THREE.AmbientLight( 0xffffff );
+        // Lights
+        let ambient = new THREE.AmbientLight( 0xffffff );
         this.scene.add( ambient );
 
-        var directionalLight = new THREE.DirectionalLight( 0xffffff );
+        let directionalLight = new THREE.DirectionalLight( 0xffffff );
         directionalLight.position.set( -9, -9, 11 ).normalize();
         directionalLight.color = new THREE.Color('rgb(100,100,100)');
         this.scene.add( directionalLight );
@@ -85,29 +85,28 @@ class WebGLView extends Component {
         let axies = new Axies();
         this.scene.add(axies.mesh);
 
-        // renderer
         this.renderer = new THREE.WebGLRenderer({
             devicePixelRatio: window.devicePixelRatio,
             antialias: true
         });
         this.renderer.setSize(width, height);
-        this.renderer.domElement.style.position = "relative";
+        this.renderer.domElement.style.position = 'relative';
         this.e.append(this.renderer.domElement);
 
-        window.requestAnimationFrame((time) => { this.animate(time); });
+        window.requestAnimationFrame((time: number) => { this.animate(time); });
     }
 
-    private animate(time: number) {
+    private animate(time: number): void {
         if (!this.timestamp) {
             this.timestamp = time;
         }
         let progress = this.timestamp - time;
         this.render(progress);
 
-        window.requestAnimationFrame((time) => { this.animate(time); });
+        window.requestAnimationFrame((time: number) => { this.animate(time); });
     }
 
-    private render(progress?: number) {
+    private render(progress?: number): void {
         this.renderer.render(this.scene, this.camera);
     }
 }

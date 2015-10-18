@@ -55,6 +55,7 @@
     "node-spawn": "0.0.7",
     "pinkyswear": "^2.2.2",
     "tsify": "^0.12.2",
+    "tslint": "^2.5.1",
     "uglify-js": "^2.5.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

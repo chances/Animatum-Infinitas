@@ -1,12 +1,15 @@
 import Events = require('../Bridge');
 
 class Node {
+    protected events: Events.Bridge;
     parent: Node = null;
     children: Node[] = [];
 
-    constructor(protected events: Events.Bridge = new Events.Bridge()) {}
+    constructor(events: Events.Bridge = new Events.Bridge()) {
+        this.events = events;
+    }
 
-    get hasChildren() {
+    get hasChildren(): boolean {
         return this.children.length > 0;
     }
 
@@ -20,7 +23,7 @@ class Node {
      * @param node Node to add
      * @returns {Node}
      */
-    add(node: Node) {
+    add(node: Node): Node {
         this.children.push(node);
         node.parent = this;
 

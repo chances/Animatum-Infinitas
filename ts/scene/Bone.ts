@@ -40,7 +40,7 @@ class Bone extends SceneNode {
         this.events.trigger('nodeChanged', this, this);
     }
 
-    get translation() {
+    get translation(): THREE.Vector3 {
         return this.translate;
     }
 
@@ -51,7 +51,7 @@ class Bone extends SceneNode {
         this.events.trigger('nodeChanged', this, this);
     }
 
-    get rotation() {
+    get rotation(): THREE.Vector3 {
         return this.rotate;
     }
 
@@ -61,7 +61,7 @@ class Bone extends SceneNode {
         this.events.trigger('nodeChanged', this, this);
     }
 
-    get transformedPosition() {
+    get transformedPosition(): THREE.Vector3 {
         let transform = this.position.add(this.translation);
         let parent: Bone = <Bone>this.parent;
         if (parent && Helpers.objectIsA(parent, Bone)) {
@@ -87,7 +87,7 @@ class Bone extends SceneNode {
         return this.sphere.mesh;
     }
 
-    get meshes() {
+    get meshes(): Mesh[] {
         return this.assignedMeshes;
     }
 
@@ -97,7 +97,7 @@ class Bone extends SceneNode {
         });
     }
 
-    get leftmostKeyframe() {
+    get leftmostKeyframe(): Animation.Keyframe {
         return this.animationSortedByTime[0];
     }
 
@@ -123,7 +123,7 @@ class Bone extends SceneNode {
         return null;
     }
 
-    get rightmostKeyframe() {
+    get rightmostKeyframe(): Animation.Keyframe {
         let keyframes = this.animationSortedByTime;
         return keyframes[keyframes.length - 1];
     }
@@ -150,7 +150,7 @@ class Bone extends SceneNode {
         return null;
     }
 
-    getKeyframeLeftOfTime(time: number, type: Animation.KeyframeType) {
+    getKeyframeLeftOfTime(time: number, type: Animation.KeyframeType): Animation.Keyframe {
         let keyframes = this.animationSortedByTime;
         let keyframeLeftOfTime: Animation.Keyframe = null;
         for (let i = 0; i < keyframes.length; i++) {
@@ -166,7 +166,7 @@ class Bone extends SceneNode {
         return keyframeLeftOfTime;
     }
 
-    getKeyframeRightOfTime(time: number, type: Animation.KeyframeType) {
+    getKeyframeRightOfTime(time: number, type: Animation.KeyframeType): Animation.Keyframe {
         let keyframes = this.animationSortedByTime;
         let keyframeRightOfTime: Animation.Keyframe = null;
         for (let i = keyframes.length - 1; i > -1; i--) {
@@ -182,15 +182,11 @@ class Bone extends SceneNode {
         return keyframeRightOfTime;
     }
 
-    toString() {
+    toString(): string {
         return this.name;
     }
 
-    private makeSphere(): Sphere {
-        return new Sphere(this.position.add(this.translate), 1.0 * 0.15, 6, this.color);
-    }
-
-    private parentTranslationDiff(bone: Bone) {
+    private parentTranslationDiff(bone: Bone): THREE.Vector3 {
         let diff = new THREE.Vector3(0, 0, 0);
         let parent: Bone = <Bone>bone.parent;
         if (parent && Helpers.objectIsA(parent, Bone)) {
