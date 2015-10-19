@@ -1,12 +1,14 @@
-import THREE = require('three');
-
 import ModelView = require('../controls/Model');
 import WebGLView = require('../controls/WebGLView');
 
+import ASEModel = require('./../services/ASEModel');
+import GeomObject = require('./../services/GeomObject');
 import Model = require('../scene/Model');
+import Bone = require('../scene/Bone');
+import Mesh = require('../scene/Mesh');
 
 class Application {
-    private model = new Model();
+    private model: Model = new Model();
     private modelView: ModelView = null;
     private glView: WebGLView = null;
     private _debugMode: boolean = false;
@@ -15,10 +17,35 @@ class Application {
         $(() => {
             this.modelView = new ModelView(this.model);
             this.glView = new WebGLView(this.model);
+
+            //this.model.add(new Bone({
+            //    name: 'bone_cube',
+            //    mesh: {
+            //        vertices: [
+            //            {x: 0, y: 0, z: 0}
+            //        ]
+            //    }
+            //}));
+
+            $('#openASE').click(() => {
+                ipc.send('open-ase');
+            });
+
+            ipc.on('open-ase', (event: string) => {
+                this.model.clear();
+                let model: ASEModel = JSON.parse(event);
+                model.geomObjects.forEach((geomObject: GeomObject) => {
+                    if (geomObject.mesh.vertices.length === 1) {
+                        this.model.add(new Bone(geomObject));
+                    } else {
+                        this.model.add(new Mesh(geomObject));
+                    }
+                });
+            })
         });
     }
 
-    get debugMode() {
+    get debugMode(): boolean {
         return this._debugMode;
     }
 
@@ -26,7 +53,7 @@ class Application {
         this._debugMode = debugMode;
     }
 
-    debug() {
+    debug(): void {
         this._debugMode = true;
     }
 }

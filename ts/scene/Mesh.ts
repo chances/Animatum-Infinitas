@@ -1,5 +1,7 @@
 import THREE = require('three');
 
+import GeomObject = require('./../services/GeomObject');
+
 import SceneNode = require('./Node');
 import Bone = require('./Bone');
 
@@ -11,7 +13,7 @@ class Mesh extends SceneNode {
     private rawMesh: THREE.Mesh = null;
     private assignedBone: Bone = null;
 
-    constructor(object: any) {
+    constructor(object: GeomObject) {
         super();
 
         this.material = new THREE.MeshPhongMaterial();
@@ -23,33 +25,36 @@ class Mesh extends SceneNode {
         this.name = object.name;
 
         this.geometry = new THREE.Geometry();
-        object.mesh.verticies.forEach((vertex: any) => {
+        object.mesh.vertices.forEach((vertex: any) => {
             this.geometry.vertices.push(new THREE.Vector3(vertex.x, vertex.y, vertex.z));
         });
-        //object.mesh.textureCoordinates.forEach((uv: any) => {
+        //object.mesh.textureCoordinates.forEach((uv: TextureCoordinate) => {
         //
         //});
-        object.mesh.faces.forEach((face: any, index: number) => {
+        object.mesh.faces.forEach((face: Face, index: number) => {
             let geometryFace = new THREE.Face3(
-                <number>face.vertex[0],
-                <number>face.vertex[1],
-                <number>face.vertex[2]
+                face.a, face.b, face.c,
+                new THREE.Vector3(
+                    face.normal.x,
+                    face.normal.y,
+                    face.normal.z
+                )
             );
             geometryFace.vertexNormals.push(
                 new THREE.Vector3(
-                    object.mesh.vertexNormals[index * 3].x,
-                    object.mesh.vertexNormals[index * 3].y,
-                    object.mesh.vertexNormals[index * 3].z
+                    object.mesh.vertices[face.a].normal.x,
+                    object.mesh.vertices[face.a].normal.y,
+                    object.mesh.vertices[face.a].normal.z
                 ),
                 new THREE.Vector3(
-                    object.mesh.vertexNormals[index * 3 + 1].x,
-                    object.mesh.vertexNormals[index * 3 + 1].y,
-                    object.mesh.vertexNormals[index * 3 + 1].z
+                    object.mesh.vertices[face.b].normal.x,
+                    object.mesh.vertices[face.b].normal.y,
+                    object.mesh.vertices[face.b].normal.z
                 ),
                 new THREE.Vector3(
-                    object.mesh.vertexNormals[index * 3 + 2].x,
-                    object.mesh.vertexNormals[index * 3 + 2].y,
-                    object.mesh.vertexNormals[index * 3 + 2].z
+                    object.mesh.vertices[face.c].normal.x,
+                    object.mesh.vertices[face.c].normal.y,
+                    object.mesh.vertices[face.c].normal.z
                 )
             );
             this.geometry.faces.push(geometryFace);

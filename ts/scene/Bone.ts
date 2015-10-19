@@ -2,6 +2,8 @@ import THREE = require('three');
 
 import Helpers = require('../Helpers');
 
+import GeomObject = require('./../services/GeomObject');
+
 import SceneNode = require('./Node');
 import Mesh = require('./Mesh');
 import Animation = require('./Animation');
@@ -16,14 +18,14 @@ class Bone extends SceneNode {
     private assignedMeshes: Mesh[] = [];
     private sphere: Sphere = null;
 
-    constructor(object: any) {
+    constructor(object: GeomObject) {
         super(null);
 
         this.name = object.name;
         this.translate = new THREE.Vector3();
 
         // Create visual representation
-        let v = object.mesh.verticies[0];
+        let v = object.mesh.vertices[0];
         let position = new THREE.Vector3(v.x, v.y, v.z);
         this.sphere = new Sphere(position.add(this.translate), 1.0 * 0.15, 6, new THREE.Color('red'));
 

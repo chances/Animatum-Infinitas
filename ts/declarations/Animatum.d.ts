@@ -33,3 +33,31 @@ interface TreeItemWrapper<T> {
 interface ZeptoCollection {
     hasAttr(name: string): boolean;
 }
+
+interface TextureCoordinate {
+    u: number;
+    v: number;
+}
+
+interface Vector3 {
+    x: number;
+    y: number;
+    z: number;
+}
+
+interface Vertex extends Vector3 {
+    normal?: Vector3;
+    textureCoordinates?: TextureCoordinate;
+}
+
+interface Face {
+    a: number;
+    b: number;
+    c: number;
+    normal?: Vector3
+}
+
+interface Mesh {
+    vertices: Vertex[];
+    faces: Face[];
+}

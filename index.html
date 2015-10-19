@@ -13,10 +13,14 @@
   <script type="text/javascript" src="components/three.js/build/three.min.js"></script>
 
   <script type="text/javascript" src="dist/main.js"></script>
+  <script type="text/javascript" id="bootstrap">
+    var ipc = require('ipc');
+  </script>
 </head>
 <body>
   <main>
     <div class="sidebar">
+      <button id="openASE">Open ASE Model...</button>
       <div id="model"></div>
     </div>
     <div>

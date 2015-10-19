@@ -1,6 +1,10 @@
 import app = require('app');
+import dialog = require('dialog');
+import ipc = require('ipc');
 import CrashReporter = require('crash-reporter');
 import BrowserWindow = require('browser-window');
+
+import ASEModel = require('./services/ASEModel');
 
 class Application {
     private mainWindow: GitHubElectron.BrowserWindow = null;
@@ -54,6 +58,40 @@ class Application {
 
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
+        });
+
+        ipc.on('open-ase', (event: any) => {
+            dialog.showOpenDialog(this.mainWindow, {
+                title: 'Open ASE Model',
+                filters: [
+                    { name: 'ASE 3D Models', extensions: ['ase'] },
+                    { name: 'All Files', extensions: ['*'] }
+                ],
+                properties: ['openFile']
+            }, function (files: string[] = null) {
+                if (files !== null && files.length > 0) {
+                    let model = new ASEModel(files[0]);
+                    event.sender.send('open-ase', JSON.stringify(model));
+                }
+            });
+            //this.openAseModel(function (model: ASEModel) {
+            //    event.sender.send('open-ase', JSON.stringify(model));
+            //});
+        });
+    }
+
+    private openAseModel(callback: (model: ASEModel) => void) {
+        dialog.showOpenDialog(this.mainWindow, {
+            title: 'Open ASE Model',
+            filters: [
+                { name: 'ASE 3D Models', extensions: ['ase'] },
+                { name: 'All Files', extensions: ['*'] }
+            ],
+            properties: ['openFile']
+        }, function (files: string[] = null) {
+            if (files !== null && files.length > 0) {
+                callback(new ASEModel(files[0]));
+            }
         });
     }
 }
