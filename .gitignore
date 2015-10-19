@@ -28,3 +28,5 @@ ts/declarations/*
 /node_modules
 
 /dist
+
+parser/parser.js
