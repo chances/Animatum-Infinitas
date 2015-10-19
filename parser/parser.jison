@@ -25,29 +25,29 @@
       this.type = type;
       this.children = children;
     }
-    function nodeNumber(name, value) {
-      this.name = name;
+    function nodeNumber(type, value) {
+      this.type = type;
       this.value = value;
     }
-    function nodeString(name, value) {
-      this.name = name;
+    function nodeString(type, value) {
+      this.type = type;
       this.value = value;
     }
-    function nodeVector3(name, x, y, z) {
-      this.name = name;
+    function nodeVector3(type, x, y, z) {
+      this.type = type;
       this.x = x;
       this.y = y;
       this.z = z;
     }
-    function nodeIndexedVector3(name, index, x, y, z) {
-      this.name = name;
+    function nodeIndexedVector3(type, index, x, y, z) {
+      this.type = type;
       this.index = index;
       this.x = x;
       this.y = y;
       this.z = z;
     }
-    function nodeMeshFace(name, index, a, b, c, ab, bc, ca, smoothing, materialId) {
-      this.name = name;
+    function nodeMeshFace(type, index, a, b, c, ab, bc, ca, smoothing, materialId) {
+      this.type = type;
       this.index = index;
       this.a = a;
       this.b = b;
