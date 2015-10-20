@@ -1,4 +1,5 @@
 import THREE = require('three');
+import randomColor = require('randomcolor');
 
 import Helpers = require('../Helpers');
 
@@ -27,7 +28,7 @@ class Bone extends SceneNode {
         // Create visual representation
         let v = object.mesh.vertices[0];
         let position = new THREE.Vector3(v.x, v.y, v.z);
-        this.sphere = new Sphere(position.add(this.translate), 1.0 * 0.15, 6, new THREE.Color('red'));
+        this.sphere = new Sphere(position.add(this.translate), 1.0 * 0.15, 6, new THREE.Color(randomColor()));
 
         //this.color = Colors.Random();
     }

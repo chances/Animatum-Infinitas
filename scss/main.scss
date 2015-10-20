@@ -66,6 +66,10 @@ main {
   overflow-y: auto;
   outline: none;
 
+  &:focus {
+    //outline: 1px dashed #000000;
+  }
+
   & > * {
     cursor: default;
     -webkit-user-select: none;
@@ -74,6 +78,7 @@ main {
   & > .item {
     display: block;
     padding: 0.25em 0 0.5em;
+    border: 1px dashed transparent;
 
     &.selected {
       color: #fefefe;
@@ -87,6 +92,10 @@ main {
   }
 }
 
+#model:focus > .item.selected {
+  //border-color: #fefefe;
+}
+
 #glView {
   flex: 1;
   overflow: hidden;
@@ -95,6 +104,10 @@ main {
 #timeline {
   height: 15rem;
   outline: none;
+
+  &:focus {
+    //outline: 1px dashed #000000;
+  }
 }
 
 #xml {

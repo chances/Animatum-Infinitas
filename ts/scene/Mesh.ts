@@ -1,4 +1,5 @@
 import THREE = require('three');
+import randomColor = require('randomcolor');
 
 import GeomObject = require('./../services/GeomObject');
 
@@ -17,7 +18,7 @@ class Mesh extends SceneNode {
         super();
 
         this.material = new THREE.MeshPhongMaterial();
-        this.material.color = new THREE.Color('green');
+        this.material.color = new THREE.Color(randomColor());
         this.material.shininess = 5;
         this.material.transparent = true;
         this.material.opacity = 0.60;
