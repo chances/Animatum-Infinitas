@@ -31,8 +31,6 @@ class Bone extends SceneNode {
         let position = new THREE.Vector3(v.x, v.y, v.z);
         this.sphere = new Sphere(position.add(this.translate), 1.0 * 0.15, 6, new THREE.Color(randomColor()));
         this.bounds = new THREE.BoxHelper(this.sphere.mesh);
-
-        //this.color = Colors.Random();
     }
 
     get position(): THREE.Vector3 {
