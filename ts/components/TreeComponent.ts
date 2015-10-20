@@ -122,7 +122,7 @@ class TreeComponent<T> extends InputComponent<T> {
         if (item !== null) {
             var index = this.items.indexOf(item);
             if (index !== -1) {
-                this.selectedIndex = index;
+                this.itemSelected(index);
             }
         }
     }
