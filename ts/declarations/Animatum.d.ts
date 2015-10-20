@@ -61,3 +61,8 @@ interface Mesh {
     vertices: Vertex[];
     faces: Face[];
 }
+
+declare module 'randomcolor' {
+    function randomColor(): string;
+    export = randomColor;
+}
