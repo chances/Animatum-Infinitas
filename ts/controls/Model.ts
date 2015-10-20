@@ -42,7 +42,7 @@ class Model extends TreeComponent<Bone|Mesh> {
         bones.forEach((bone: Bone) => {
             this._itemWrapper.add({
                 label: bone.name,
-                icon: 'fa fa-circle-o',
+                icon: 'fa fa-circle-thin',
                 value: bone,
                 parent: null
             });

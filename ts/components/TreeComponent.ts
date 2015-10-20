@@ -31,10 +31,10 @@ class TreeComponent<T> extends InputComponent<T> {
                         $('<i>').addClass('icon').addClass(item.icon)
                     );
                 }
-                element.click((event) => {
+                element.mousedown((event) => {
                     let span = <HTMLSpanElement>(event.currentTarget);
                     let index = this.e.find('span.item').index(span);
-                    this.itemClicked(index);
+                    this.itemSelected(index);
                 });
                 this.e.append(element);
 
@@ -72,6 +72,25 @@ class TreeComponent<T> extends InputComponent<T> {
                 return index;
             }
         };
+
+        this.e.keydown((event: KeyboardEvent) => {
+            let selectedIndex: number = this.selectedIndex;
+            if (event.keyCode === 38) {
+                if (selectedIndex !== -1) {
+                    selectedIndex--;
+                }
+            } else if (event.keyCode === 40) {
+                selectedIndex++;
+            } else {
+                return;
+            }
+            if (selectedIndex < 0) {
+                selectedIndex = 0;
+            } else if (selectedIndex > this._items.length - 1) {
+                selectedIndex--;
+            }
+            this.itemSelected(selectedIndex);
+        });
     }
 
     get items(): TreeItemWrapper<T> {
@@ -124,7 +143,7 @@ class TreeComponent<T> extends InputComponent<T> {
         return itemDepth;
     }
 
-    private itemClicked(index: number) {
+    private itemSelected(index: number) {
         if (index !== this._selectedIndex) {
             this.selectedIndex = index;
             this._events.trigger('selectionChanged', this.selectedItem, this);

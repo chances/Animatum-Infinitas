@@ -57,6 +57,7 @@ class WebGLView extends Component {
 
         let orbitControls = OrbitControls(THREE);
         this.controls = new orbitControls(this.camera, this.e.get(0));
+        this.controls.noKeys = true;
 
         this.scene = new THREE.Scene();
 

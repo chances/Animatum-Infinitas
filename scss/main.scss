@@ -27,7 +27,7 @@ html, body {
 
 body {
   @include display-flex(column);
-  font-family: sans-serif;
+  font: caption;
   margin: 0;
 }
 
@@ -61,6 +61,10 @@ main {
 }
 
 #model {
+  flex: 1;
+  overflow: hidden;
+  overflow-y: auto;
+  outline: none;
 
   & > * {
     cursor: default;
@@ -69,7 +73,7 @@ main {
 
   & > .item {
     display: block;
-    padding: 0.25em 0;
+    padding: 0.25em 0 0.5em;
 
     &.selected {
       color: #fefefe;
@@ -77,6 +81,7 @@ main {
     }
 
     & > .icon {
+      font-size: 18px;
       padding: 0.05em 0.5em 0;
     }
   }
@@ -89,6 +94,7 @@ main {
 
 #timeline {
   height: 15rem;
+  outline: none;
 }
 
 #xml {
