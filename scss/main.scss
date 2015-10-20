@@ -76,8 +76,9 @@ main {
   }
 
   & > .item {
-    display: block;
-    padding: 0.25em 0 0.5em;
+    @include display-flex;
+    padding: 0.25em 0;
+    align-items: center;
     border: 1px dashed transparent;
 
     &.selected {
