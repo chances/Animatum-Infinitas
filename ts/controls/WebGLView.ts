@@ -5,6 +5,8 @@ import Component = require('../components/Component');
 
 import SceneNode = require('../scene/Node');
 import Model = require('../scene/Model');
+import Bone = require('../scene/Bone');
+import Mesh = require('../scene/Mesh');
 import Grid = require('../scene/primitives/Grid');
 import Axies = require('../scene/primitives/Axies');
 
@@ -13,6 +15,9 @@ class WebGLView extends Component {
     private scene: THREE.Scene = null;
     private camera: THREE.PerspectiveCamera = null;
     private controls: OrbitControls = null;
+    private raycaster: THREE.Raycaster = new THREE.Raycaster();
+    private mouseVector: THREE.Vector2 = new THREE.Vector2();
+    private pickingObjects: THREE.Object3D[] = [];
 
     private timeline: Component = null;
 
@@ -28,11 +33,14 @@ class WebGLView extends Component {
         this.model = model;
         this.model.childAdded((node: SceneNode) => {
             this.scene.add(node.mesh);
+            this.pickingObjects.push(node.mesh);
         });
         this.model.childRemoved((node: SceneNode) => {
             this.scene.remove(node.mesh);
+            this.pickingObjects.splice(this.pickingObjects.indexOf(node.mesh), 1);
         });
         this.ready();
+        this.setupPicking();
 
         window.addEventListener('resize', () => {
             let width = this.width,
@@ -99,6 +107,57 @@ class WebGLView extends Component {
         this.e.append(this.renderer.domElement);
 
         window.requestAnimationFrame((time: number) => { this.animate(time); });
+    }
+
+    private setupPicking(): void {
+        let mouseMoved: boolean = false;
+        let mouseButton: number = null;
+        let mouseMove = () => {
+            mouseMoved = true;
+        };
+        this.renderer.domElement.addEventListener('mousedown', (event: MouseEvent) => {
+            mouseMoved = false;
+            mouseButton = event.button;
+            this.renderer.domElement.addEventListener('mousemove', mouseMove, false);
+        }, false);
+        this.renderer.domElement.addEventListener('mouseup', (event: MouseEvent) => {
+            this.renderer.domElement.removeEventListener('mousemove', mouseMove, false);
+            if (!mouseMoved && event.button === mouseButton) {
+                this.mouseVector.x = ( event.offsetX / this.renderer.domElement.width ) * 2 - 1;
+                this.mouseVector.y = -( event.offsetY / this.renderer.domElement.height ) * 2 + 1;
+
+                let pickedObject = this.pickObject();
+                if (pickedObject !== null) {
+                    this._events.trigger('objectClicked', pickedObject, this);
+                }
+            }
+        }, false);
+    }
+
+    private pickObject(): Mesh|Bone {
+        this.raycaster.setFromCamera(this.mouseVector, this.camera);
+
+        let intersects = this.raycaster.intersectObjects(this.pickingObjects);
+        let pickedObject: Mesh|Bone = null;
+        if (intersects.length > 0) {
+            let meshes: Mesh[] = this.model.meshes;
+            for (let i = 0; i < meshes.length; i++) {
+                if (intersects[0].object === meshes[i].mesh) {
+                    pickedObject = meshes[i];
+                    break;
+                }
+            }
+            if (pickedObject === null) {
+                let bones: Bone[] = this.model.bones;
+                for (let i = 0; i < bones.length; i++) {
+                    if (intersects[0].object === bones[i].mesh) {
+                        pickedObject = bones[i];
+                        break;
+                    }
+                }
+            }
+        }
+        return pickedObject;
     }
 
     private animate(time: number): void {

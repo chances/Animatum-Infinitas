@@ -16,7 +16,7 @@ class Application {
     constructor() {
         $(() => {
             this.glView = new WebGLView(this.model);
-            this.modelView = new ModelView(this.model, this.glView.rawScene);
+            this.modelView = new ModelView(this.model, this.glView);
 
             $('#openASE').click(() => {
                 ipc.send('open-ase');

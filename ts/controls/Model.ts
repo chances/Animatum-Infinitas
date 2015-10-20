@@ -4,6 +4,8 @@ import Helpers = require('../Helpers');
 
 import TreeComponent = require('../components/TreeComponent');
 
+import WebGLView = require('./WebGLView');
+
 import SceneNode = require('../scene/Node');
 import SceneModel = require('../scene/Model');
 import Bone = require('../scene/Bone');
@@ -14,11 +16,11 @@ class Model extends TreeComponent<Bone|Mesh> {
     private scene: THREE.Scene;
     private lastBoundingBox: THREE.Object3D = null;
 
-    constructor (model: SceneModel, scene: THREE.Scene) {
+    constructor (model: SceneModel, glView: WebGLView) {
         super('#model');
 
         this.model = model;
-        this.scene = scene;
+        this.scene = glView.rawScene;
 
         this.change((selectedItem: Bone|Mesh) => {
             if (this.lastBoundingBox !== null) {
@@ -28,13 +30,15 @@ class Model extends TreeComponent<Bone|Mesh> {
             this.lastBoundingBox = selectedItem.boundingBox;
         });
 
-        if (this.model !== null) {
-            this.model.change((changedNode:SceneNode) => {
-                if (changedNode === model) {
-                    this.updateItems();
-                }
-            });
-        }
+        this.model.change((changedNode:SceneNode) => {
+            if (changedNode === model) {
+                this.updateItems();
+            }
+        });
+
+        glView.on('objectClicked', (object: Mesh|Bone) => {
+            this.selectedItem = object;
+        })
     }
 
     private updateItems() {
