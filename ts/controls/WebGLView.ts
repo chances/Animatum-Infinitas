@@ -41,7 +41,7 @@ class WebGLView extends Component {
             this.camera.aspect = width / height;
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(width, height, true);
-        });
+        }, false);
     }
 
     get rawScene(): THREE.Scene {
