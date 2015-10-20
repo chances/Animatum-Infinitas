@@ -18,6 +18,7 @@ class Bone extends SceneNode {
     private rotate: THREE.Vector3 = null;
     private assignedMeshes: Mesh[] = [];
     private sphere: Sphere = null;
+    private bounds: THREE.BoxHelper = null;
 
     constructor(object: GeomObject) {
         super(null);
@@ -29,6 +30,7 @@ class Bone extends SceneNode {
         let v = object.mesh.vertices[0];
         let position = new THREE.Vector3(v.x, v.y, v.z);
         this.sphere = new Sphere(position.add(this.translate), 1.0 * 0.15, 6, new THREE.Color(randomColor()));
+        this.bounds = new THREE.BoxHelper(this.sphere.mesh);
 
         //this.color = Colors.Random();
     }
@@ -88,6 +90,10 @@ class Bone extends SceneNode {
 
     get mesh(): THREE.Mesh {
         return this.sphere.mesh;
+    }
+
+    get boundingBox(): THREE.BoxHelper {
+        return this.bounds;
     }
 
     get meshes(): Mesh[] {

@@ -15,17 +15,8 @@ class Application {
 
     constructor() {
         $(() => {
-            this.modelView = new ModelView(this.model);
             this.glView = new WebGLView(this.model);
-
-            //this.model.add(new Bone({
-            //    name: 'bone_cube',
-            //    mesh: {
-            //        vertices: [
-            //            {x: 0, y: 0, z: 0}
-            //        ]
-            //    }
-            //}));
+            this.modelView = new ModelView(this.model, this.glView.rawScene);
 
             $('#openASE').click(() => {
                 ipc.send('open-ase');

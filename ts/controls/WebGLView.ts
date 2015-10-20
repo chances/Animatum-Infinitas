@@ -44,6 +44,10 @@ class WebGLView extends Component {
         });
     }
 
+    get rawScene(): THREE.Scene {
+        return this.scene;
+    }
+
     private ready(): void {
         let width = this.width,
             height = this.e.height();

@@ -12,6 +12,7 @@ class Mesh extends SceneNode {
     private geometry: THREE.Geometry = null;
     private material: THREE.MeshPhongMaterial = null;
     private rawMesh: THREE.Mesh = null;
+    private bounds: THREE.BoxHelper = null;
     private assignedBone: Bone = null;
 
     constructor(object: GeomObject) {
@@ -62,6 +63,7 @@ class Mesh extends SceneNode {
         });
 
         this.rawMesh = new THREE.Mesh(this.geometry, this.material);
+        this.bounds = new THREE.BoxHelper(this.rawMesh);
 
         this.bone = null;
     }
@@ -78,6 +80,10 @@ class Mesh extends SceneNode {
 
     get mesh(): THREE.Mesh {
         return this.rawMesh;
+    }
+
+    get boundingBox(): THREE.BoxHelper {
+        return this.bounds;
     }
 
     get polygonCount(): number {

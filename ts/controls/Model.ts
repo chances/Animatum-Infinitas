@@ -1,3 +1,7 @@
+import THREE = require('three');
+
+import Helpers = require('../Helpers');
+
 import TreeComponent = require('../components/TreeComponent');
 
 import SceneNode = require('../scene/Node');
@@ -7,11 +11,22 @@ import Mesh = require('../scene/Mesh');
 
 class Model extends TreeComponent<Bone|Mesh> {
     private model: SceneModel;
+    private scene: THREE.Scene;
+    private lastBoundingBox: THREE.Object3D = null;
 
-    constructor (model: SceneModel = null) {
+    constructor (model: SceneModel, scene: THREE.Scene) {
         super('#model');
 
         this.model = model;
+        this.scene = scene;
+
+        this.change((selectedItem: Bone|Mesh) => {
+            if (this.lastBoundingBox !== null) {
+                this.scene.remove(this.lastBoundingBox);
+            }
+            this.scene.add(selectedItem.boundingBox);
+            this.lastBoundingBox = selectedItem.boundingBox;
+        });
 
         if (this.model !== null) {
             this.model.change((changedNode:SceneNode) => {
