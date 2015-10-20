@@ -35,6 +35,7 @@
     "watch:ts": "tsc -w",
     "watch:js": "watchify js/client/main.js -o dist/main.js -v",
     "parser": "./node_modules/.bin/jison parser/parser.jison -o parser/parser.js -m commonjs",
+    "loc": "find ./ts -name '*.ts' -not -name '*.d.ts' | xargs wc -l | tail -1 | awk '{print $1}'",
     "run": "npm run build; npm run start",
     "start": "./node_modules/.bin/electron ."
   },
