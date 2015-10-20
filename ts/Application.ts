@@ -25,7 +25,9 @@ class Application {
             }
         });
 
-        app.on('ready', this.ready);
+        app.on('ready', () => {
+            this.ready();
+        });
     }
 
     get debugMode(): boolean {
@@ -60,23 +62,10 @@ class Application {
             this.mainWindow = null;
         });
 
-        ipc.on('open-ase', (event: any) => {
-            dialog.showOpenDialog(this.mainWindow, {
-                title: 'Open ASE Model',
-                filters: [
-                    { name: 'ASE 3D Models', extensions: ['ase'] },
-                    { name: 'All Files', extensions: ['*'] }
-                ],
-                properties: ['openFile']
-            }, function (files: string[] = null) {
-                if (files !== null && files.length > 0) {
-                    let model = new ASEModel(files[0]);
-                    event.sender.send('open-ase', JSON.stringify(model));
-                }
+        ipc.on('open-ase', (event: IpcEvent) => {
+            this.openAseModel(function (model: ASEModel) {
+                event.sender.send('open-ase', JSON.stringify(model));
             });
-            //this.openAseModel(function (model: ASEModel) {
-            //    event.sender.send('open-ase', JSON.stringify(model));
-            //});
         });
     }
 

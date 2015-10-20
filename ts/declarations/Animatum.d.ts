@@ -66,3 +66,27 @@ declare module 'randomcolor' {
     function randomColor(): string;
     export = randomColor;
 }
+
+declare interface IpcEvent {
+    returnValue: any;
+    sender: GitHubElectron.WebContents;
+    send(channel: string, ...args: any[]): void;
+}
+
+declare interface IpcResponse {
+
+}
+
+declare class IPC {
+    on(channel: string, callback: (event: IpcEvent) => void): void;
+    on(channel: string, callback: (event: any) => void): void;
+    send(channel: string, ...args: any[]): void;
+    sendSync(channel: string, ...args: any[]): IpcResponse;
+}
+
+declare module 'ipc' {
+    var ipc: IPC;
+    export = ipc;
+}
+
+declare var ipc: IPC;
