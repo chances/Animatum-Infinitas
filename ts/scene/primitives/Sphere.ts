@@ -12,7 +12,7 @@ class Sphere {
             new THREE.SphereGeometry(radius, subdivisions, subdivisions),
             this.material
         );
-        this.rawMesh.position = position;
+        this.rawMesh.position.set(position.x, position.y, position.z);
     }
 
     get color() {
