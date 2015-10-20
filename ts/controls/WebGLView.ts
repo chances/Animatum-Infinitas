@@ -35,8 +35,9 @@ class WebGLView extends Component {
             this.scene.add(node.mesh);
             this.pickingObjects.push(node.mesh);
         });
-        this.model.childRemoved((node: SceneNode) => {
+        this.model.childRemoved((node: Mesh|Bone) => {
             this.scene.remove(node.mesh);
+            this.scene.remove(node.boundingBox);
             this.pickingObjects.splice(this.pickingObjects.indexOf(node.mesh), 1);
         });
         this.ready();
