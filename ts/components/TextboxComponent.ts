@@ -3,7 +3,7 @@ import Events = require('../Bridge');
 import InputComponent = require('./InputComponent');
 
 class TextboxComponent extends InputComponent<string> {
-    private _text: string;
+    private textValue: string;
 
     constructor (elementSelector: string);
     constructor (element: HTMLElement);
@@ -12,38 +12,26 @@ class TextboxComponent extends InputComponent<string> {
 
         this._marshall = InputComponent.StringMarshaller;
 
-        this._text = "";
-
-        super.change((value: string) => {
-            this.checkTextChanged(value);
-        });
+        this.textValue = <HTMLInputElement>(this.element).value;
 
         this.keyup(() => {
-            this.checkTextChanged(this.e.val());
+            this.checkTextChanged(<HTMLInputElement>(this.element).value);
         });
     }
 
     get text() {
-        return this._text;
+        return this.textValue;
     }
 
     set text(value: string) {
-        this._text = value;
-        this.e.val(value);
-    }
-
-    change(callback: Events.BridgeCallback<string>): TextboxComponent {
-        this.addEventListener('textChanged', (value: string) => {
-            callback(value);
-        });
-
-        return this;
+        this.textValue = value;
+        <HTMLInputElement>(this.element).value = value;
     }
 
     private checkTextChanged(value: string) {
-        if (this._text !== value) {
-            this._text = value;
-            this._events.trigger('textChanged', value);
+        if (this.textValue !== value) {
+            this.textValue = value;
+            this.triggerChange(value);
         }
     }
 }

@@ -45,7 +45,7 @@ class WebGLView extends Component {
 
         window.addEventListener('resize', () => {
             let width = this.width,
-                height = this.e.parent().height() - this.timeline.height;
+                height = this.parent.height - this.timeline.height;
 
             this.camera.aspect = width / height;
             this.camera.updateProjectionMatrix();
@@ -59,7 +59,7 @@ class WebGLView extends Component {
 
     private ready(): void {
         let width = this.width,
-            height = this.e.height();
+            height = this.height;
 
         this.camera = new THREE.PerspectiveCamera( 75, width / height, 1, 100000 );
         this.camera.up.set(0, 0, 1);
@@ -69,7 +69,7 @@ class WebGLView extends Component {
         this.camera.updateProjectionMatrix();
 
         let orbitControls = OrbitControls(THREE);
-        this.controls = new orbitControls(this.camera, this.e.get(0));
+        this.controls = new orbitControls(this.camera, this.element);
         this.controls.noKeys = true;
 
         this.scene = new THREE.Scene();
@@ -105,7 +105,7 @@ class WebGLView extends Component {
         });
         this.renderer.setSize(width, height);
         this.renderer.domElement.style.position = 'relative';
-        this.e.append(this.renderer.domElement);
+        this.element.appendChild(this.renderer.domElement);
 
         window.requestAnimationFrame((time: number) => { this.animate(time); });
     }
@@ -129,7 +129,7 @@ class WebGLView extends Component {
 
                 let pickedObject = this.pickObject();
                 if (pickedObject !== null) {
-                    this._events.trigger('objectClicked', pickedObject, this);
+                    this.events.trigger('objectClicked', pickedObject, this);
                 }
             }
         }, false);

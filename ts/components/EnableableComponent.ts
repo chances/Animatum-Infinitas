@@ -1,18 +1,15 @@
 import Component = require('./Component');
 
 class EnableableComponent extends Component {
-    private _enabled: boolean;
 
     constructor (elementSelector: string);
     constructor (element: HTMLElement);
     constructor (element: any) {
         super(element);
-
-        this._enabled = this.e.hasAttr('disabled');
     }
 
     get enabled() {
-        return this._enabled;
+        return this.element.hasAttribute('disabled');
     }
 
     set enabled(enabled: boolean) {
@@ -24,15 +21,15 @@ class EnableableComponent extends Component {
     }
 
     enable(): EnableableComponent {
-        this.e.removeAttr('disabled');
-        this._enabled = true;
+        this.e.removeAttribute('disabled');
+        this.enabled = true;
 
         return this;
     }
 
     disable(): EnableableComponent {
-        this.e.attr('disabled', '');
-        this._enabled = false;
+        this.attr('disabled', '');
+        this.enabled = false;
 
         return this;
     }

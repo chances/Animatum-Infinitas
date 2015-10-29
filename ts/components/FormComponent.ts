@@ -12,8 +12,8 @@ class FormComponent<T> extends Component {
 
         this._marshall = null;
 
-        this.e.submit((event: Event) => {
-            this._events.trigger('submit', event, this);
+        this.element.addEventListener('submit', (event: Event) => {
+            this.events.trigger('submit', event, this);
         });
     }
 

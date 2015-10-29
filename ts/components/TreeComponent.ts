@@ -23,31 +23,32 @@ class TreeComponent<T> extends InputComponent<T> {
 
                 let depth = this.getTreeItemDepth(item, 0);
 
-                let element = $('<span>');
-                element.addClass('item');
-                element.text(item.label);
+                let element = document.createElement('span');
+                element.classList.add('item');
+                element.textContent = item.label;
                 if (item.icon) {
-                    element.prepend(
-                        $('<i>').addClass('icon').addClass(item.icon)
-                    );
+                    let icon = document.createElement('i');
+                    item.icon.split(' ').forEach((token) => icon.classList.add(token));
+                    element.insertBefore(icon, element.firstChild);
                 }
-                element.mousedown((event) => {
+                element.addEventListener('mousedown', (event: MouseEvent) => {
                     let span = <HTMLSpanElement>(event.currentTarget);
-                    let index = this.e.find('span.item').index(span);
-                    this.itemSelected(index);
+                    this.itemSelected(this.indexOf(span));
                 });
-                this.e.append(element);
+                this.element.appendChild(element);
 
                 // Apply tree depth indentation
                 if (depth > 0) {
-                    let paddingLeft = parseInt(element.css('padding-left'));
-                    element.css('padding-left', (paddingLeft + depth) + 'em');
+                    let paddingLeft = parseInt(window.getComputedStyle(element).paddingLeft);
+                    element.style.paddingLeft = (paddingLeft + depth) + 'em'
                 }
             },
             clear: () => {
                 this._items = [];
                 this._selectedIndex = -1;
-                this.e.empty();
+                while (this.element.firstChild) {
+                    this.element.removeChild(this.element.firstChild);
+                }
             },
             get: (index: number) => {
                 if (index < 0 || index >= this._items.length) {
@@ -73,7 +74,7 @@ class TreeComponent<T> extends InputComponent<T> {
             }
         };
 
-        this.e.keydown((event: KeyboardEvent) => {
+        this.element.addEventListener('keydown', (event: KeyboardEvent) => {
             let selectedIndex: number = this.selectedIndex;
             if (event.keyCode === 38) {
                 if (selectedIndex !== -1) {
@@ -107,7 +108,11 @@ class TreeComponent<T> extends InputComponent<T> {
         }
 
         this._selectedIndex = index;
-        this.e.find('span.item').removeClass('selected').get(index).classList.add('selected');
+        let items = this.element.querySelectorAll('span.item');
+        for (let i = 0; i < items.length; ++i) {
+            items[i].classList.remove('selected');
+        }
+        items[index].classList.add('selected');
     }
 
     get selectedItem(): T {
@@ -146,7 +151,7 @@ class TreeComponent<T> extends InputComponent<T> {
     private itemSelected(index: number) {
         if (index !== this._selectedIndex) {
             this.selectedIndex = index;
-            this._events.trigger('selectionChanged', this.selectedItem, this);
+            this.events.trigger('selectionChanged', this.selectedItem, this);
         }
     }
 }

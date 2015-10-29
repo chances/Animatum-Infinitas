@@ -11,10 +11,6 @@ class InputComponent<T> extends EnableableComponent {
         super(element);
 
         this._marshall = null;
-
-        this.e.change(() => {
-            this._events.trigger('change', this.e.val(), this);
-        });
     }
 
     static get NumberMarshaller(): Marshaller<number> {
@@ -48,6 +44,10 @@ class InputComponent<T> extends EnableableComponent {
         });
 
         return this;
+    }
+
+    protected triggerChange(value: any) {
+        this.events.trigger('change', value, this);
     }
 }
 

@@ -4,26 +4,28 @@ import InputComponent = require('./InputComponent');
 
 class ListComponent<T> extends InputComponent<T> {
     protected _items: ListItem<T>[] = [];
-    protected _itemWrapper: ListItemWrapper<T>;
-    protected _selectedIndex: number = -1;
+    protected itemWrapper: ListItemWrapper<T>;
 
     constructor (elementSelector: string);
-    constructor (element: HTMLElement);
+    constructor (element: HTMLSelectElement);
     constructor (element: any) {
         super(element);
 
-        this._itemWrapper = {
+        this.itemWrapper = {
             add: (item: ListItem<T>) => {
                 this._items.push(item);
 
-                var element = $('<option value="' + (this._items.length - 1) + '">' + item.label + '</option>');
-                this.e.append(element);
+                let element = document.createElement('option');
+                element.value = this._items.length - 1;
+                element.text = item.label;
+                <HTMLSelectElement>(this.element).add(element);
             },
             clear: () => {
                 this._items = [];
-                this._selectedIndex = -1;
-                this.e.find('option').remove();
-                //this.e.empty();
+                //<HTMLSelectElement>(this.element).selectedIndex = -1;
+                while (this.element.firstChild) {
+                    this.element.removeChild(this.element.firstChild);
+                }
             },
             get: (index: number) => {
                 if (index < 0 || index >= this._items.length) {
@@ -50,21 +52,23 @@ class ListComponent<T> extends InputComponent<T> {
         };
 
         this.e.change(() => {
-            this._selectedIndex = parseInt(this.e.val(), 10);
-            this._events.trigger('selectionChanged', this.selectedItem, this);
+            <HTMLSelectElement>(this.element).selectedIndex = parseInt(<HTMLSelectElement>(this.element).value, 10);
+            this.events.trigger('selectionChanged', this.selectedItem, this);
         });
     }
 
     static get NullListItem() {
-        return $('<option value="-1"></option>');
+        let nullListItem: HTMLOptionElement = document.createElement('option');
+        nullListItem.value = '-1';
+        return nullListItem;
     }
 
     get items(): ListItemWrapper<T> {
-        return this._itemWrapper;
+        return this.itemWrapper;
     }
 
     get selectedIndex() {
-        return this._selectedIndex;
+        return <HTMLSelectElement>(this.element).selectedIndex;
     }
 
     set selectedIndex(index: number) {
@@ -72,16 +76,17 @@ class ListComponent<T> extends InputComponent<T> {
             throw new RangeError("Index out of bounds");
         }
 
-        this._selectedIndex = index;
-        this.e.val(index.toString());
+        <HTMLSelectElement>(this.element).selectedIndex = index;
+        <HTMLInputElement>(this.element).value = index.toString();
     }
 
     get selectedItem(): T {
-        if (this._selectedIndex === -1) {
+        let selectedIndex = <HTMLSelectElement>(this.element).selectedIndex;
+        if (selectedIndex === -1) {
             return null;
         }
 
-        return this._items[this._selectedIndex].value;
+        return this._items[selectedIndex].value;
     }
 
     set selectedItem(item: T) {

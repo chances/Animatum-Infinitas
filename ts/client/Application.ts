@@ -14,11 +14,11 @@ class Application {
     private _debugMode: boolean = false;
 
     constructor() {
-        $(() => {
+        document.addEventListener('DOMContentLoaded', () => {
             this.glView = new WebGLView(this.model);
             this.modelView = new ModelView(this.model, this.glView);
 
-            $('#openASE').click(() => {
+            document.querySelector('#openASE').addEventListener('click', () => {
                 ipc.send('open-ase');
             });
 
