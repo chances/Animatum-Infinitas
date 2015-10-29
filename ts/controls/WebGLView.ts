@@ -61,7 +61,7 @@ class WebGLView extends Component {
         let width = this.width,
             height = this.height;
 
-        this.camera = new THREE.PerspectiveCamera( 75, width / height, 1, 100000 );
+        this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.01, 1000 );
         this.camera.up.set(0, 0, 1);
         this.camera.position.set(5, 5, 6);
         //this.camera.position.z = 75;
