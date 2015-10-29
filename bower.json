@@ -26,7 +26,6 @@
   ],
   "dependencies": {
     "font-awesome": "fontawesome#~4.4.0",
-    "zepto-full": "~1.1.4",
     "codemirror": "CodeMirror#~5.7.0",
     "three.js": "threejs#*"
   }
