@@ -17,7 +17,7 @@ class ListComponent<T> extends InputComponent<T> {
 
                 let select = <HTMLSelectElement>this.element,
                     element = document.createElement('option');
-                element.value = this._items.length - 1;
+                element.value = (this._items.length - 1).toString();
                 element.text = item.label;
                 select.add(element);
             },
@@ -52,17 +52,18 @@ class ListComponent<T> extends InputComponent<T> {
             }
         };
 
-        this.e.change(() => {
-            let select = <HTMLSelectElement>this.element;
-            select.selectedIndex = parseInt(select.value, 10);
+        super.change(() => {
+            //let select = <HTMLSelectElement>this.element;
+            //select.selectedIndex = parseInt(select.value, 10);
             this.events.trigger('selectionChanged', this.selectedItem, this);
         });
     }
 
-    static get NullListItem(): HTMLOptionElement {
-        let nullListItem: HTMLOptionElement = document.createElement('option');
-        nullListItem.value = '-1';
-        return nullListItem;
+    static get NullListItem(): ListItem<any> {
+        return {
+            label: '',
+            value: null
+        };
     }
 
     get items(): ListItemWrapper<T> {

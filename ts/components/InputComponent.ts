@@ -11,6 +11,11 @@ class InputComponent<T> extends EnableableComponent {
         super(element);
 
         this._marshall = null;
+
+        this.element.addEventListener('change', (): void => {
+            let input = <HTMLInputElement>this.element;
+            this.triggerChange(input.value);
+        });
     }
 
     static get NumberMarshaller(): Marshaller<number> {
