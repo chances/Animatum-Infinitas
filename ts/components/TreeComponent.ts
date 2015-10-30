@@ -28,6 +28,7 @@ class TreeComponent<T> extends InputComponent<T> {
                 element.textContent = item.label;
                 if (item.icon) {
                     let icon = document.createElement('i');
+                    icon.classList.add('icon');
                     item.icon.split(' ').forEach((token: string) => icon.classList.add(token));
                     element.insertBefore(icon, element.firstChild);
                 }
