@@ -98,6 +98,18 @@ class Component {
         return this;
     }
 
+    text(): string;
+    text(value: string): Component;
+    text(value?: any): any {
+        if (value === undefined) {
+            return this.element.textContent;
+        } else {
+            this.element.textContent = value;
+        }
+
+        return this;
+    }
+
     show(): void {
         if (window.getComputedStyle(this.element).display === 'none') {
             if (this.oldDisplayState === null) {
