@@ -64,7 +64,6 @@ class WebGLView extends Component {
         this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.01, 1000 );
         this.camera.up.set(0, 0, 1);
         this.camera.position.set(5, 5, 6);
-        //this.camera.position.z = 75;
         this.camera.lookAt(new THREE.Vector3());
         this.camera.updateProjectionMatrix();
 
@@ -142,7 +141,7 @@ class WebGLView extends Component {
         let pickedObject: Mesh|Bone = null;
         if (intersects.length > 0) {
             let meshes: Mesh[] = this.model.meshes;
-            for (let i = 0; i < meshes.length; i++) {
+            for (let i = 0; i < meshes.length; i += 1) {
                 if (intersects[0].object === meshes[i].mesh) {
                     pickedObject = meshes[i];
                     break;
@@ -150,7 +149,7 @@ class WebGLView extends Component {
             }
             if (pickedObject === null) {
                 let bones: Bone[] = this.model.bones;
-                for (let i = 0; i < bones.length; i++) {
+                for (let i = 0; i < bones.length; i += 1) {
                     if (intersects[0].object === bones[i].mesh) {
                         pickedObject = bones[i];
                         break;
