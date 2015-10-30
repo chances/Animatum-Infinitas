@@ -14,9 +14,9 @@ namespace Animation {
         transformation: THREE.Vector3;
 
         constructor(
-            time?: number = 0.0,
-            type?: KeyframeType = KeyframeType.Translation,
-            transformation?: THREE.Vector3 = new THREE.Vector3()
+            time: number = 0.0,
+            type: KeyframeType = KeyframeType.Translation,
+            transformation: THREE.Vector3 = new THREE.Vector3()
         ) {
             this.time = time;
             this.type = type;
