@@ -1,4 +1,5 @@
 import ModelView = require('../controls/Model');
+import PropertiesView = require('../controls/PropertiesView');
 import WebGLView = require('../controls/WebGLView');
 
 import ASEModel = require('./../services/ASEModel');
@@ -10,13 +11,16 @@ import Mesh = require('../scene/Mesh');
 class Application {
     private model: Model = new Model();
     private modelView: ModelView = null;
+    private propsView: PropertiesView = null;
     private glView: WebGLView = null;
+
     private _debugMode: boolean = false;
 
     constructor() {
         document.addEventListener('DOMContentLoaded', () => {
             this.glView = new WebGLView(this.model);
             this.modelView = new ModelView(this.model, this.glView);
+            this.propsView = new PropertiesView(this.model, this.modelView);
 
             document.querySelector('#openASE').addEventListener('click', () => {
                 ipc.send('open-ase');

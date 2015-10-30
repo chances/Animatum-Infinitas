@@ -2,6 +2,7 @@
 @import "compass/css3";
 
 $ui-margin: 0.5em;
+$ui-border-color: rgba(black, 0.5);
 
 @mixin display-flex($direction: row) {
   display: flex;
@@ -29,6 +30,7 @@ body {
   @include display-flex(column);
   font: caption;
   margin: 0;
+  overflow: hidden;
 }
 
 main {
@@ -38,6 +40,8 @@ main {
   & > div.sidebar {
     @include display-flex(column);
     width: 15rem;
+    border: 0 solid $ui-border-color;
+    border-right-width: 1px;
 
     & > div:first-child {
       flex: 1;
@@ -62,9 +66,11 @@ main {
 
 #model {
   flex: 1;
+  border: 0 solid $ui-border-color;
+  border-top-width: 1px;
+  outline: none;
   overflow: hidden;
   overflow-y: auto;
-  outline: none;
 
   &:focus {
     //outline: 1px dashed #000000;
@@ -93,8 +99,54 @@ main {
   }
 }
 
-#model:focus > .item.selected {
-  //border-color: #fefefe;
+#properties {
+  padding: 0.25em;
+  border: 0 solid $ui-border-color;
+  border-top-width: 1px;
+
+  &.hidden {
+    display: none;
+  }
+
+  & > table {
+    width: 100%;
+  }
+}
+
+button {
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+  margin: 0.25em;
+  padding: 0.625em 0.25em;
+  border: none transparent;
+  background-color: #e5e5e5;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: background-image 0.2s ease;
+
+  &:hover,
+  &:focus {
+    background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.10));
+  }
+
+  &:active {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0,0,0, 0.20) inset;
+  }
+}
+
+button.colored {
+  color: transparent;
+  margin: 0;
+  padding: 0.325em 0.5em 0.4em;
+  transition: color 0.3s ease;
+
+  &.high-contrast:hover {
+    color: #fefefe;
+  }
+  &.low-contrast:hover {
+    color: #010101;
+  }
 }
 
 #glView {

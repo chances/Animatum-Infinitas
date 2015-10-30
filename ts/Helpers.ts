@@ -31,6 +31,16 @@ namespace Helpers {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
+    // Borrowed from https://24ways.org/2010/calculating-color-contrast/
+    export function getContrastYIQ(hexColor: string): string {
+        let r = parseInt(hexColor.substr(0,2),16),
+            g = parseInt(hexColor.substr(2,2),16),
+            b = parseInt(hexColor.substr(4,2),16),
+            yiq = ((r*299)+(g*587)+(b*114))/1000;
+
+        return (yiq >= 128) ? 'black' : 'white';
+    }
+
     export function vertexRotateTransform(
         vertex: THREE.Vector3,
         focalPoint: THREE.Vector3,
