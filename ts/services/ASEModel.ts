@@ -34,7 +34,7 @@ class ASEModel {
     }
 
     private getName(obj: any): string {
-        for (let i = 0; i < obj.children.length; i++) {
+        for (let i = 0; i < obj.children.length; i += 1) {
             if (obj.children[i].type === 'NODE_NAME') {
                 return obj.children[i].value;
             }
@@ -43,7 +43,7 @@ class ASEModel {
     }
 
     private getMesh(obj: any): Mesh {
-        for (let i = 0; i < obj.children.length; i++) {
+        for (let i = 0; i < obj.children.length; i += 1) {
             if (obj.children[i].type === 'MESH') {
                 let mesh = {
                     vertices: this.getVertices(obj.children[i]),
@@ -59,7 +59,7 @@ class ASEModel {
 
     private getVertices(mesh: any): Vertex[] {
         let vertices: Vertex[] = [];
-        for (let i = 0; i < mesh.children.length; i++) {
+        for (let i = 0; i < mesh.children.length; i += 1) {
             if (mesh.children[i].type === 'MESH_VERTEX_LIST') {
                 for (let v = 0; v < mesh.children[i].children.length; v++) {
                     vertices.push({
@@ -75,7 +75,7 @@ class ASEModel {
 
     private getFaces(mesh: any): Face[] {
         let faces: Face[] = [];
-        for (let i = 0; i < mesh.children.length; i++) {
+        for (let i = 0; i < mesh.children.length; i += 1) {
             if (mesh.children[i].type === 'MESH_FACE_LIST') {
                 for (let v = 0; v < mesh.children[i].children.length; v++) {
                     faces.push({
@@ -89,8 +89,8 @@ class ASEModel {
         return faces;
     }
 
-    private getTextureCoordinates(mesh: any, vertices: Vertex[]) {
-        for (let i = 0; i < mesh.children.length; i++) {
+    private getTextureCoordinates(mesh: any, vertices: Vertex[]): void {
+        for (let i = 0; i < mesh.children.length; i += 1) {
             if (mesh.children[i].type === 'MESH_TVERTLIST') {
                 for (let v = 0; v < mesh.children[i].children.length; v++) {
                     vertices[mesh.children[i].children[v].index].textureCoordinates = {
@@ -103,7 +103,7 @@ class ASEModel {
     }
 
     private getNormals(mesh: any, vertices: Vertex[], faces: Face[]): void {
-        for (let i = 0; i < mesh.children.length; i++) {
+        for (let i = 0; i < mesh.children.length; i += 1) {
             if (mesh.children[i].type === 'MESH_NORMALS') {
                 for (let v = 0; v < mesh.children[i].children.length; v++) {
                     if (mesh.children[i].children[v].type === 'MESH_FACENORMAL') {
@@ -111,13 +111,13 @@ class ASEModel {
                             x: mesh.children[i].children[v].x,
                             y: mesh.children[i].children[v].y,
                             z: mesh.children[i].children[v].z
-                        }
+                        };
                     } else if (mesh.children[i].children[v].type === 'MESH_VERTEXNORMAL') {
                         vertices[mesh.children[i].children[v].index].normal = {
                             x: mesh.children[i].children[v].x,
                             y: mesh.children[i].children[v].y,
                             z: mesh.children[i].children[v].z
-                        }
+                        };
                     }
                 }
             }

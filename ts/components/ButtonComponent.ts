@@ -8,8 +8,8 @@ class ButtonComponent extends EnableableComponent {
         super(element);
     }
 
-    click(callback: () => void) {
-        this.e.addEventListener('click', function () {
+    click(callback: () => void): void {
+        this.e.addEventListener('click', function (): void {
             callback();
         });
     }

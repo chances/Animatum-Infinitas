@@ -32,7 +32,7 @@ class Application {
                         this.model.add(new Mesh(geomObject));
                     }
                 });
-            })
+            });
         });
     }
 

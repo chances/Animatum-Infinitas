@@ -4,9 +4,9 @@ import InputComponent = require('./InputComponent');
 
 class CheckboxComponent extends InputComponent<boolean> {
 
-    constructor(elementSelector:string);
-    constructor(element:HTMLElement);
-    constructor(element:any) {
+    constructor(elementSelector: string);
+    constructor(element: HTMLElement);
+    constructor(element: any) {
         super(element);
 
         this.marshaller = (): boolean => {
@@ -20,8 +20,9 @@ class CheckboxComponent extends InputComponent<boolean> {
         }
     }
 
-    get checked() {
-        return <HTMLInputElement>(this.element).checked;
+    get checked(): boolean {
+        let input = <HTMLInputElement>(this.element);
+        return input.checked;
     }
 
     set checked(checked: boolean) {
@@ -30,7 +31,8 @@ class CheckboxComponent extends InputComponent<boolean> {
         } else {
             this.e.removeAttribute('checked');
         }
-        <HTMLInputElement>(this.element).checked = checked;
+        let input = <HTMLInputElement>(this.element);
+        input.checked = checked;
     }
 
     change(callback: Events.BridgeCallback<boolean>): CheckboxComponent {
@@ -41,7 +43,7 @@ class CheckboxComponent extends InputComponent<boolean> {
         return this;
     }
 
-    private clicked() {
+    private clicked(): void {
         this.events.trigger('checkedChanged', this.checked);
         this.triggerChange(this.checked);
     }

@@ -11,10 +11,6 @@ class Application {
     private _debugMode: boolean;
 
     constructor() {
-        //$(() => {
-        //    this._debugMode = false;
-        //});
-
         this._debugMode = false;
 
         CrashReporter.start();
@@ -63,25 +59,29 @@ class Application {
         });
 
         ipc.on('open-ase', (event: IpcEvent) => {
-            this.openAseModel(function (model: ASEModel) {
+            this.openAseModel(function (model: ASEModel): void {
                 event.sender.send('open-ase', JSON.stringify(model));
             });
         });
     }
 
-    private openAseModel(callback: (model: ASEModel) => void) {
-        dialog.showOpenDialog(this.mainWindow, {
-            title: 'Open ASE Model',
-            filters: [
-                { name: 'ASE 3D Models', extensions: ['ase'] },
-                { name: 'All Files', extensions: ['*'] }
-            ],
-            properties: ['openFile']
-        }, function (files: string[] = null) {
-            if (files !== null && files.length > 0) {
-                callback(new ASEModel(files[0]));
+    private openAseModel(callback: (model: ASEModel) => void): void {
+        dialog.showOpenDialog(
+            this.mainWindow,
+            {
+                title: 'Open ASE Model',
+                filters: [
+                    { name: 'ASE 3D Models', extensions: ['ase'] },
+                    { name: 'All Files', extensions: ['*'] }
+                ],
+                properties: ['openFile']
+            },
+            function (files: string[] = null): void {
+                if (files !== null && files.length > 0) {
+                    callback(new ASEModel(files[0]));
+                }
             }
-        });
+        );
     }
 }
 

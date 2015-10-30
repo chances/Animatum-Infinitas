@@ -98,7 +98,7 @@ class Component {
         return this;
     }
 
-    show() {
+    show(): void {
         if (window.getComputedStyle(this.element).display === 'none') {
             if (this.oldDisplayState === null) {
                 this.element.style.display = 'block';
@@ -108,7 +108,7 @@ class Component {
         }
     }
 
-    hide() {
+    hide(): void {
         let computedStyle = window.getComputedStyle(this.element);
         if (computedStyle.display !== 'none') {
             this.oldDisplayState = computedStyle.display;
@@ -123,7 +123,7 @@ class Component {
         if (typeof element === 'string') {
             el = <HTMLElement>this.element.querySelector(element);
         }
-        for (let i = 0; i < this.element.children.length; ++i) {
+        for (let i = 0; i < this.element.children.length; i += 1) {
             if (this.element.children[i].isEqualNode(el)) {
                 return i;
             }

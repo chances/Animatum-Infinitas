@@ -1,19 +1,19 @@
 import THREE = require('three');
 
 class Grid {
-    private rawLineWidth = 1.0;
-    private rawSize = 22;
-    private lightColor = new THREE.Color(0x323232);
-    private lightMaterial = new THREE.LineBasicMaterial();
-    private darkColor = new THREE.Color(0xA9A9A9);
-    private darkMaterial = new THREE.LineBasicMaterial();
+    private rawLineWidth: number = 1.0;
+    private rawSize: number = 22;
+    private lightColor: THREE.Color = new THREE.Color(0x323232);
+    private lightMaterial: THREE.LineBasicMaterial = new THREE.LineBasicMaterial();
+    private darkColor: THREE.Color = new THREE.Color(0xA9A9A9);
+    private darkMaterial: THREE.LineBasicMaterial = new THREE.LineBasicMaterial();
     private minorGrid: THREE.Geometry;
     private majorGrid: THREE.Geometry;
     private rawMinorLines: THREE.Line;
     private rawMajorLines: THREE.Line;
     private gridGroup: THREE.Group;
 
-    private renderOrigin = false;
+    private renderOrigin: boolean = false;
 
     constructor() {
         this.lightMaterial.color = this.lightColor;
@@ -29,7 +29,7 @@ class Grid {
         this.group.add(this.rawMajorLines);
     }
 
-    get lineWidth() {
+    get lineWidth(): number {
         return this.rawLineWidth;
     }
 
@@ -39,7 +39,7 @@ class Grid {
         this.updateGrid();
     }
 
-    get size() {
+    get size(): number {
         return this.rawSize;
     }
 
@@ -49,7 +49,7 @@ class Grid {
         this.updateGrid();
     }
 
-    get visible() {
+    get visible(): boolean {
         return this.gridGroup.visible;
     }
 
@@ -63,15 +63,15 @@ class Grid {
         this.updateGrid();
     }
 
-    get group() {
+    get group(): THREE.Group {
         return this.gridGroup;
     }
 
-    private updateGrid() {
+    private updateGrid(): void {
         let minor = new THREE.Geometry(),
             major = new THREE.Geometry();
 
-        for (let i = this.rawSize * -1; i <= this.rawSize; i++) {
+        for (let i = this.rawSize * -1; i <= this.rawSize; i += 1) {
             if (i === 0 && !this.renderOrigin) {
                 continue;
             }

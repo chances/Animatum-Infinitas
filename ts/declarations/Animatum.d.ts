@@ -54,7 +54,7 @@ interface Face {
     a: number;
     b: number;
     c: number;
-    normal?: Vector3
+    normal?: Vector3;
 }
 
 interface Mesh {
@@ -85,7 +85,7 @@ declare class IPC {
 }
 
 declare module 'ipc' {
-    var ipc: IPC;
+    let ipc: IPC;
     export = ipc;
 }
 

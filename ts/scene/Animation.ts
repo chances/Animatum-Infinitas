@@ -1,6 +1,7 @@
 import THREE = require('three');
 
-module Animation {
+namespace Animation {
+    'use strict';
 
     export enum KeyframeType {
         Translation,
@@ -8,12 +9,19 @@ module Animation {
     }
 
     export class Keyframe {
+        time: number;
+        type: KeyframeType;
+        transformation: THREE.Vector3;
 
         constructor(
-            public time: number = 0.0,
-            public type: KeyframeType = KeyframeType.Translation,
-            public transformation: THREE.Vector3 = new THREE.Vector3
-        ) {}
+            time?: number = 0.0,
+            type?: KeyframeType = KeyframeType.Translation,
+            transformation?: THREE.Vector3 = new THREE.Vector3()
+        ) {
+            this.time = time;
+            this.type = type;
+            this.transformation = transformation;
+        }
 
         /**
          * Linearly interpolate the transformation of this keyframe between that of another.

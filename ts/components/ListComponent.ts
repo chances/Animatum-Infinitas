@@ -12,36 +12,37 @@ class ListComponent<T> extends InputComponent<T> {
         super(element);
 
         this.itemWrapper = {
-            add: (item: ListItem<T>) => {
+            add: (item: ListItem<T>): void => {
                 this._items.push(item);
 
-                let element = document.createElement('option');
+                let select = <HTMLSelectElement>this.element,
+                    element = document.createElement('option');
                 element.value = this._items.length - 1;
                 element.text = item.label;
-                <HTMLSelectElement>(this.element).add(element);
+                select.add(element);
             },
-            clear: () => {
+            clear: (): void => {
                 this._items = [];
                 //<HTMLSelectElement>(this.element).selectedIndex = -1;
                 while (this.element.firstChild) {
                     this.element.removeChild(this.element.firstChild);
                 }
             },
-            get: (index: number) => {
+            get: (index: number): T => {
                 if (index < 0 || index >= this._items.length) {
-                    throw new RangeError("Index out of bounds");
+                    throw new RangeError('Index out of bounds');
                 }
                 return this._items[index].value;
             },
-            getItem: (index: number) => {
+            getItem: (index: number): ListItem<T> => {
                 if (index < 0 || index >= this._items.length) {
-                    throw new RangeError("Index out of bounds");
+                    throw new RangeError('Index out of bounds');
                 }
                 return this._items[index];
             },
-            indexOf: (item: T) => {
-                var index = -1;
-                for (var i = 0; i < this._items.length; i++) {
+            indexOf: (item: T): number => {
+                let index = -1;
+                for (let i = 0; i < this._items.length; i += 1) {
                     if (this._items[i].value === item) {
                         index = i;
                         break;
@@ -52,12 +53,13 @@ class ListComponent<T> extends InputComponent<T> {
         };
 
         this.e.change(() => {
-            <HTMLSelectElement>(this.element).selectedIndex = parseInt(<HTMLSelectElement>(this.element).value, 10);
+            let select = <HTMLSelectElement>this.element;
+            select.selectedIndex = parseInt(select.value, 10);
             this.events.trigger('selectionChanged', this.selectedItem, this);
         });
     }
 
-    static get NullListItem() {
+    static get NullListItem(): HTMLOptionElement {
         let nullListItem: HTMLOptionElement = document.createElement('option');
         nullListItem.value = '-1';
         return nullListItem;
@@ -67,21 +69,23 @@ class ListComponent<T> extends InputComponent<T> {
         return this.itemWrapper;
     }
 
-    get selectedIndex() {
-        return <HTMLSelectElement>(this.element).selectedIndex;
+    get selectedIndex(): number {
+        let select = <HTMLSelectElement>this.element;
+        return select.selectedIndex;
     }
 
     set selectedIndex(index: number) {
         if (index < 0 || index >= this._items.length) {
-            throw new RangeError("Index out of bounds");
+            throw new RangeError('Index out of bounds');
         }
 
-        <HTMLSelectElement>(this.element).selectedIndex = index;
-        <HTMLInputElement>(this.element).value = index.toString();
+        let select = <HTMLSelectElement>this.element;
+        select.selectedIndex = index;
     }
 
     get selectedItem(): T {
-        let selectedIndex = <HTMLSelectElement>(this.element).selectedIndex;
+        let select = <HTMLSelectElement>this.element,
+            selectedIndex = select.selectedIndex;
         if (selectedIndex === -1) {
             return null;
         }
@@ -91,7 +95,7 @@ class ListComponent<T> extends InputComponent<T> {
 
     set selectedItem(item: T) {
         if (item !== null) {
-            var index = this.items.indexOf(item);
+            let index = this.items.indexOf(item);
             if (index !== -1) {
                 this.selectedIndex = index;
             }

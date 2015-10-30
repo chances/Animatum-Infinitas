@@ -16,7 +16,7 @@ export class Bridge {
      */
     on(event: string, callback: BridgeCallback<any>): number {
         Math.random();
-        var handler: BridgeHandler = {
+        let handler: BridgeHandler = {
             event: event,
             id: Helpers.randomNumber(0, Date.now()),
             callback: callback
@@ -36,8 +36,8 @@ export class Bridge {
      */
     off(callback: BridgeCallback<any>): Bridge;
     off(idOrCallback: any): Bridge {
-        var index = -1;
-        for (var i = 0; i < this.handlers.length; i++) {
+        let index = -1;
+        for (var i = 0; i < this.handlers.length; i += 1) {
             if (typeof idOrCallback === 'number') {
                 if (this.handlers[i].id === idOrCallback) {
                     index = i;
@@ -63,7 +63,7 @@ export class Bridge {
      * @param context=window Context in which to execute handling callback delegates
      */
     trigger(event: string, data: any = null, context: any = window): Bridge {
-        this.handlers.forEach(function (handler: BridgeHandler) {
+        this.handlers.forEach(function (handler: BridgeHandler): void {
             if (handler.event === event) {
                 if (data === null) {
                     handler.callback.call(context);

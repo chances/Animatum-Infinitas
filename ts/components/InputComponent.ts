@@ -21,7 +21,7 @@ class InputComponent<T> extends EnableableComponent {
 
     static get BooleanMarshaller(): Marshaller<boolean> {
         return function (value: any): boolean {
-            return value !== "" && value !== "false" && value !== "n" && value !== "no";
+            return value !== '' && value !== 'false' && value !== 'n' && value !== 'no';
         };
     }
 
@@ -46,7 +46,7 @@ class InputComponent<T> extends EnableableComponent {
         return this;
     }
 
-    protected triggerChange(value: any) {
+    protected triggerChange(value: any): void {
         this.events.trigger('change', value, this);
     }
 }

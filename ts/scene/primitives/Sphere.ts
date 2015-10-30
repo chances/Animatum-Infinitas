@@ -15,7 +15,7 @@ class Sphere {
         this.rawMesh.position.set(position.x, position.y, position.z);
     }
 
-    get color() {
+    get color(): THREE.Color {
         return this.material.color;
     }
 
@@ -23,7 +23,7 @@ class Sphere {
         this.material.color = value;
     }
 
-    get mesh() {
+    get mesh(): THREE.Object3D {
         return this.rawMesh;
     }
 }

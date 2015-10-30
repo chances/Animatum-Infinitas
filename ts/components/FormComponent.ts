@@ -25,7 +25,7 @@ class FormComponent<T> extends Component {
 
     static get BooleanMarshaller(): Marshaller<boolean> {
         return function (value: any): boolean {
-            return value !== "" && value !== "false" && value !== "n" && value !== "no";
+            return value !== '' && value !== 'false' && value !== 'n' && value !== 'no';
         };
     }
 
@@ -41,7 +41,7 @@ class FormComponent<T> extends Component {
 
     submit(callback: Events.EventBridgeCallback<T>): FormComponent<T> {
         this.addEventListener('submit', (event: Event) => {
-            var value: T = null;
+            let value: T = null;
             if (this._marshall !== null) {
                 value = this._marshall(value);
             }

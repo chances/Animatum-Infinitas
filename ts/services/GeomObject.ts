@@ -1,5 +1,3 @@
-import THREE = require('three');
-
 class GeomObject {
     name: string;
     mesh: Mesh = null;

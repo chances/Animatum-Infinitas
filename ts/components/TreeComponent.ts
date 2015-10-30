@@ -13,7 +13,7 @@ class TreeComponent<T> extends InputComponent<T> {
         super(element);
 
         this._itemWrapper = {
-            add: (item: TreeItem<T>) => {
+            add: (item: TreeItem<T>): void => {
                 if (item.parent === null) {
                     this._items.push(item);
                 } else {
@@ -28,7 +28,7 @@ class TreeComponent<T> extends InputComponent<T> {
                 element.textContent = item.label;
                 if (item.icon) {
                     let icon = document.createElement('i');
-                    item.icon.split(' ').forEach((token) => icon.classList.add(token));
+                    item.icon.split(' ').forEach((token: string) => icon.classList.add(token));
                     element.insertBefore(icon, element.firstChild);
                 }
                 element.addEventListener('mousedown', (event: MouseEvent) => {
@@ -39,32 +39,32 @@ class TreeComponent<T> extends InputComponent<T> {
 
                 // Apply tree depth indentation
                 if (depth > 0) {
-                    let paddingLeft = parseInt(window.getComputedStyle(element).paddingLeft);
-                    element.style.paddingLeft = (paddingLeft + depth) + 'em'
+                    let paddingLeft = parseInt(window.getComputedStyle(element).paddingLeft, 10);
+                    element.style.paddingLeft = (paddingLeft + depth) + 'em';
                 }
             },
-            clear: () => {
+            clear: (): void => {
                 this._items = [];
                 this._selectedIndex = -1;
                 while (this.element.firstChild) {
                     this.element.removeChild(this.element.firstChild);
                 }
             },
-            get: (index: number) => {
+            get: (index: number): T => {
                 if (index < 0 || index >= this._items.length) {
-                    throw new RangeError("Index out of bounds");
+                    throw new RangeError('Index out of bounds');
                 }
                 return this._items[index].value;
             },
-            getItem: (index: number) => {
+            getItem: (index: number): TreeItem<T> => {
                 if (index < 0 || index >= this._items.length) {
-                    throw new RangeError("Index out of bounds");
+                    throw new RangeError('Index out of bounds');
                 }
                 return this._items[index];
             },
-            indexOf: (item: T) => {
-                var index = -1;
-                for (var i = 0; i < this._items.length; i++) {
+            indexOf: (item: T): number => {
+                let index = -1;
+                for (let i = 0; i < this._items.length; i += 1) {
                     if (this._items[i].value === item) {
                         index = i;
                         break;
@@ -98,21 +98,23 @@ class TreeComponent<T> extends InputComponent<T> {
         return this._itemWrapper;
     }
 
-    get selectedIndex() {
+    get selectedIndex(): number {
         return this._selectedIndex;
     }
 
     set selectedIndex(index: number) {
         if (index < 0 || index >= this._items.length) {
-            throw new RangeError("Index out of bounds");
+            throw new RangeError('Index out of bounds');
         }
 
         this._selectedIndex = index;
         let items = this.element.querySelectorAll('span.item');
-        for (let i = 0; i < items.length; ++i) {
-            items[i].classList.remove('selected');
+        for (let i = 0; i < items.length; i += 1) {
+            let item = <HTMLElement>items[i];
+            item.classList.remove('selected');
         }
-        items[index].classList.add('selected');
+        let item = <HTMLElement>items[index];
+        item.classList.add('selected');
     }
 
     get selectedItem(): T {
@@ -125,7 +127,7 @@ class TreeComponent<T> extends InputComponent<T> {
 
     set selectedItem(item: T) {
         if (item !== null) {
-            var index = this.items.indexOf(item);
+            let index = this.items.indexOf(item);
             if (index !== -1) {
                 this.itemSelected(index);
             }
@@ -148,7 +150,7 @@ class TreeComponent<T> extends InputComponent<T> {
         return itemDepth;
     }
 
-    private itemSelected(index: number) {
+    private itemSelected(index: number): void {
         if (index !== this._selectedIndex) {
             this.selectedIndex = index;
             this.events.trigger('selectionChanged', this.selectedItem, this);

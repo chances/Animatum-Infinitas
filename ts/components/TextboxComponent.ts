@@ -1,5 +1,3 @@
-import Events = require('../Bridge');
-
 import InputComponent = require('./InputComponent');
 
 class TextboxComponent extends InputComponent<string> {
@@ -10,25 +8,28 @@ class TextboxComponent extends InputComponent<string> {
     constructor (element: any) {
         super(element);
 
+        let input = <HTMLInputElement>this.element;
+
         this._marshall = InputComponent.StringMarshaller;
 
-        this.textValue = <HTMLInputElement>(this.element).value;
+        this.textValue = input.value;
 
         this.keyup(() => {
-            this.checkTextChanged(<HTMLInputElement>(this.element).value);
+            this.checkTextChanged(input.value);
         });
     }
 
-    get text() {
+    get text(): string {
         return this.textValue;
     }
 
     set text(value: string) {
+        let input = <HTMLInputElement>this.element;
         this.textValue = value;
-        <HTMLInputElement>(this.element).value = value;
+        input.value = value;
     }
 
-    private checkTextChanged(value: string) {
+    private checkTextChanged(value: string): void {
         if (this.textValue !== value) {
             this.textValue = value;
             this.triggerChange(value);

@@ -8,7 +8,7 @@ class EnableableComponent extends Component {
         super(element);
     }
 
-    get enabled() {
+    get enabled(): boolean {
         return this.element.hasAttribute('disabled');
     }
 

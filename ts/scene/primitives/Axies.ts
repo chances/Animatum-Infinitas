@@ -1,10 +1,10 @@
 import THREE = require('three');
 
 class Axies {
-    private rawSize = 22;
-    private rawLineWidth = 1.25;
-    private geometry = new THREE.Geometry();
-    private material = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
+    private rawSize: number = 22;
+    private rawLineWidth: number = 1.25;
+    private geometry: THREE.Geometry = new THREE.Geometry();
+    private material: THREE.LineBasicMaterial = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
     private rawMesh: THREE.LineSegments;
 
     constructor() {
@@ -13,7 +13,7 @@ class Axies {
         this.updateAxies();
     }
 
-    get lineWidth() {
+    get lineWidth(): number {
         return this.rawLineWidth;
     }
 
@@ -23,7 +23,7 @@ class Axies {
         this.updateAxies();
     }
 
-    get size() {
+    get size(): number {
         return this.rawSize;
     }
 
@@ -33,7 +33,7 @@ class Axies {
         this.updateAxies();
     }
 
-    get visible() {
+    get visible(): boolean {
         return this.rawMesh.visible;
     }
 
@@ -41,19 +41,20 @@ class Axies {
         this.rawMesh.visible = value;
     }
 
-    get mesh() {
+    get mesh(): THREE.Object3D {
         return this.rawMesh;
     }
 
-    private updateAxies() {
+    private updateAxies(): void {
         let red = new THREE.Color(1, 0, 0),
             green = new THREE.Color(0, 1, 0),
             blue = new THREE.Color(0, 0, 1);
 
-        for (let i = (this.rawSize * -1); i < this.rawSize; i+=0.4) {
+        for (let i = (this.rawSize * -1); i < this.rawSize; i += 0.4) {
             let add = 0.2;
-            if (i > 0) add = 0.4;
-            if (i < 0 && i > -0.2) add = 0.4;
+            if (i > 0 || (i < 0 && i > -0.2)) {
+                add = 0.4;
+            }
 
             this.geometry.vertices.push(
                 new THREE.Vector3(i, 0, 0),

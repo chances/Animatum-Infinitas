@@ -2,11 +2,12 @@ import THREE = require('three');
 
 import Convert = require('./Convert');
 
-module Helpers {
+namespace Helpers {
+    'use strict';
 
     export function delay(time: number): PinkySwear.Promise {
         let promise = pinkySwear();
-        window.setTimeout(function () {
+        window.setTimeout(function (): void {
             promise(true);
         }, time);
         return promise;
@@ -19,10 +20,10 @@ module Helpers {
 
     //Interval utility function
     export function interval(func: () => void, time: number): Interval {
-        var interval = window.setInterval(func, time);
+        let interval = window.setInterval(func, time);
         return {
             intervalId: interval,
-            clear: function () { window.clearInterval(interval); }
+            clear: function (): void { window.clearInterval(interval); }
         };
     }
 
@@ -30,7 +31,11 @@ module Helpers {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    export function vertexRotateTransform(vertex: THREE.Vector3, focalPoint: THREE.Vector3, rotation: THREE.Vector3) {
+    export function vertexRotateTransform(
+        vertex: THREE.Vector3,
+        focalPoint: THREE.Vector3,
+        rotation: THREE.Vector3): THREE.Vector3 {
+
         let rotationRadians = new THREE.Vector3(
             Convert.degreesToRadians(rotation.x),
             Convert.degreesToRadians(rotation.y),
@@ -39,7 +44,11 @@ module Helpers {
         return vertexRotateRadianTransform(vertex, focalPoint, rotationRadians);
     }
 
-    export function vertexRotateRadianTransform(vertex: THREE.Vector3, focalPoint: THREE.Vector3, rotation: THREE.Vector3) {
+    export function vertexRotateRadianTransform(
+        vertex: THREE.Vector3,
+        focalPoint: THREE.Vector3,
+        rotation: THREE.Vector3): THREE.Vector3 {
+
         let transform = new THREE.Matrix4();
         let transformedVertex = new THREE.Vector3().copy(vertex);
         transform.setPosition(vertex);
@@ -63,8 +72,8 @@ module Helpers {
         return transformedVertex.applyMatrix4(transform);
     }
 
-    export function objectIsA(object: any, type: any) {
-        if (type.hasOwnProperty("prototype")) {
+    export function objectIsA(object: any, type: any): boolean {
+        if (type.hasOwnProperty('prototype')) {
             return object.constructor.name === type.prototype.constructor.name;
         } else {
             return false;

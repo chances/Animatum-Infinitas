@@ -36,6 +36,7 @@
     "watch:js": "watchify js/client/main.js -o dist/main.js -v",
     "parser": "./node_modules/.bin/jison parser/parser.jison -o parser/parser.js -m commonjs",
     "loc": "find ./ts -name '*.ts' -not -name '*.d.ts' | xargs wc -l | tail -1 | awk '{print $1}'",
+    "lint": "gulp tslint",
     "run": "npm run build; npm run start",
     "start": "./node_modules/.bin/electron ."
   },
@@ -54,6 +55,7 @@
     "del": "^1.1.0",
     "electron-prebuilt": "^0.33.6",
     "gulp": "^3.8.10",
+    "gulp-tslint": "^3.4.0",
     "jison": "^0.4.15",
     "node-spawn": "0.0.7",
     "pinkyswear": "^2.2.2",

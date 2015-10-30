@@ -30,9 +30,12 @@ class Mesh extends SceneNode {
         object.mesh.vertices.forEach((vertex: any) => {
             this.geometry.vertices.push(new THREE.Vector3(vertex.x, vertex.y, vertex.z));
         });
+        // TODO: Assign texture coordinates
+        /*
         //object.mesh.textureCoordinates.forEach((uv: TextureCoordinate) => {
         //
         //});
+        */
         object.mesh.faces.forEach((face: Face, index: number) => {
             let geometryFace = new THREE.Face3(
                 face.a, face.b, face.c,

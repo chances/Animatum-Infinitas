@@ -8,6 +8,8 @@ var spawn = require('node-spawn');
 
 var chalk = require('chalk');
 
+const tslint = require('gulp-tslint');
+
 function logStdOut(app, stdout) {
     process.stdout.write(chalk.blue(app + ':') + ' ');
     process.stdout.write(stdout);
@@ -17,6 +19,13 @@ function logStdErr(app, stderr) {
     process.stdout.write(chalk.red(app + ':') + ' ');
     process.stdout.write(stderr);
 }
+
+// Use this until https://github.com/palantir/tslint/issues/692 is resolved
+gulp.task('tslint', function(){
+    return gulp.src(['ts/**/*.ts', '!ts/**/*.d.ts'])
+        .pipe(tslint())
+        .pipe(tslint.report('verbose'));
+});
 
 gulp.task('watch', function () {
     //spawn({

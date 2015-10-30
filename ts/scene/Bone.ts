@@ -87,7 +87,7 @@ class Bone extends SceneNode {
     }
 
     get mesh(): THREE.Mesh {
-        return this.sphere.mesh;
+        return <THREE.Mesh>this.sphere.mesh;
     }
 
     get boundingBox(): THREE.BoxHelper {
@@ -137,7 +137,7 @@ class Bone extends SceneNode {
 
     get rightmostTranslationKeyframe(): Animation.Keyframe {
         let keyframes = this.animationSortedByTime;
-        for (let i = keyframes.length - 1; i > -1; i++) {
+        for (let i = keyframes.length - 1; i > -1; i += 1) {
             if (keyframes[i].type === Animation.KeyframeType.Translation) {
                 return keyframes[i];
             }
@@ -148,7 +148,7 @@ class Bone extends SceneNode {
 
     get rightmostRotationKeyframe(): Animation.Keyframe {
         let keyframes = this.animationSortedByTime;
-        for (let i = keyframes.length - 1; i > -1; i++) {
+        for (let i = keyframes.length - 1; i > -1; i += 1) {
             if (keyframes[i].type === Animation.KeyframeType.Rotation) {
                 return keyframes[i];
             }
@@ -160,7 +160,7 @@ class Bone extends SceneNode {
     getKeyframeLeftOfTime(time: number, type: Animation.KeyframeType): Animation.Keyframe {
         let keyframes = this.animationSortedByTime;
         let keyframeLeftOfTime: Animation.Keyframe = null;
-        for (let i = 0; i < keyframes.length; i++) {
+        for (let i = 0; i < keyframes.length; i += 1) {
             if (keyframes[i].type === type) {
                 if (time >= keyframes[i].time) {
                     keyframeLeftOfTime = keyframes[i];
